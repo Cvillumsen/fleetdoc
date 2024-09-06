@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modTireCostCalculation.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        hr {
+            border: 1px solid #ccc;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Functions in modTireCostCalculation.bas</h1>
+
+<!-- iifNull Function -->
+<div class="function">
+    <h2>Function: <code>iifNull(v As Variant, ifnull As Variant) As Variant</code></h2>
+    <p>This function checks if a given value is <code>Null</code> or empty, and if so, returns a specified fallback value. Otherwise, it returns the original value.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>v (Variant)</strong>: The value to check.</li>
+        <li><strong>ifnull (Variant)</strong>: The value to return if <code>v</code> is <code>Null</code> or empty.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Variant</code>: The original value if it is not <code>Null</code> or empty, otherwise the fallback value.</p>
+
+    <h3>Logic:</h3>
+    <p>The function first checks if the value <code>v</code> is <code>Null</code>. If it is, the fallback value <code>ifnull</code> is returned. If not, it checks if <code>v</code> is an empty string, and if so, returns the fallback value. Otherwise, it returns <code>v</code>.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of iifNull:
+Dim result As Variant
+result = iifNull(Null, "DefaultValue")  ' Returns: "DefaultValue"
+result = iifNull("", "DefaultValue")    ' Returns: "DefaultValue"
+result = iifNull("ActualValue", "DefaultValue")  ' Returns: "ActualValue"
+</code></pre>
+
+</div>
+
+<hr>
+
+<!-- tireDlgCostCalc Function -->
+<div class="function">
+    <h2>Function: <code>tireDlgCostCalc(fromTireId As String, toTireId As String, kilometers As Long) As Variant</code></h2>
+    <p>This function calculates the tire cost between two tire IDs based on the number of kilometers driven. It opens a form in dialog mode to perform the calculation and returns the tire cost or <code>Null</code> if the cost wasn't calculated.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>fromTireId (String)</strong>: The ID of the starting tire.</li>
+        <li><strong>toTireId (String)</strong>: The ID of the ending tire.</li>
+        <li><strong>kilometers (Long)</strong>: The number of kilometers driven.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Variant</code>: The calculated tire cost if successful, or <code>Null</code> if the calculation wasn't completed.</p>
+
+    <h3>Logic:</h3>
+    <p>The function sets global parameters for the tire IDs and kilometers, then opens a form in dialog mode. If the cost calculation is performed, the function returns the calculated value. Otherwise, it returns <code>Null</code>.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of tireDlgCostCalc:
+Dim result As Variant
+result = tireDlgCostCalc("Tire1", "Tire2", 50000)
+If Not IsNull(result) Then
+    MsgBox "Tire cost: " & result
+Else
+    MsgBox "Cost calculation not completed."
+End If
+</code></pre>
+
+</div>
+
+<hr>
+
+<!-- tireGetConnection Function -->
+<div class="function">
+    <h2>Function: <code>tireGetConnection() As ADODB.Connection</code></h2>
+    <p>This function returns the current ADODB connection for accessing the database.</p>
+
+    <h3>Returns:</h3>
+    <p><code>ADODB.Connection</code>: The active database connection.</p>
+
+    <h3>Logic:</h3>
+    <p>The function simply returns the current project's connection using <code>Application.CurrentProject.Connection</code>.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of tireGetConnection:
+Dim conn As ADODB.Connection
+Set conn = tireGetConnection
+</code></pre>
+
+</div>
+
+<hr>
+
+<!-- tireCode Function -->
+<div class="function">
+    <h2>Function: <code>tireCode(width As Variant, Profile As Variant, Model As Variant, rim As Variant, speed As Variant, MAKE As Variant)</code></h2>
+    <p>This function generates a tire code string based on various tire attributes like width, profile, model, rim, speed, and make.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>width (Variant)</strong>: The tire width.</li>
+        <li><strong>Profile (Variant)</strong>: The tire profile.</li>
+        <li><strong>Model (Variant)</strong>: The tire model.</li>
+        <li><strong>rim (Variant)</strong>: The rim size.</li>
+        <li><strong>speed (Variant)</strong>: The tire speed rating.</li>
+        <li><strong>MAKE (Variant)</strong>: The make of the tire.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>String</code>: The generated tire code.</p>
+
+    <h3>Logic:</h3>
+    <p>The function uses the <code>iifNull</code> function to substitute default values if any of the attributes are missing or <code>Null</code>. The resulting string concatenates all the attributes to form a complete tire code.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of tireCode:
+Dim code As String
+code = tireCode(205, 55, "T", 16, "V", "Michelin")
+' Result: "205/55T16V Michelin"
+</code></pre>
+
+</div>
+
+<hr>
+
+<!-- tireCostCode Function -->
+<div class="function">
+    <h2>Function: <code>tireCostCode(Profile As Variant, rim As Variant) As String</code></h2>
+    <p>This function generates a tire cost code based on the profile and rim size of the tire.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>Profile (Variant)</strong>: The tire profile.</li>
+        <li><strong>rim (Variant)</strong>: The rim size.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>String</code>: The generated tire cost code in the format "<code>Profile/rim</code>".</p>
+
+    <h3>Logic:</h3>
+    <p>The function uses the <code>iifNull</code> function to replace missing or <code>Null</code> values with default values and concatenates the profile and rim size.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of tireCostCode:
+Dim costCode As String
+costCode = tireCostCode(55, 16)
+' Result: "55/16"
+</code></pre>
+
+</div>
+
+<hr>
+
+<!-- tireCost Function -->
+<div class="function">
+    <h2>Function: <code>tireCost(fromTireCode As String, toTireCode As String, kilometers As Long) As Long</code></h2>
+    <p>This function calculates the cost difference between two tires based on the tire codes and the number of kilometers driven.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>fromTireCode (String)</strong>: The tire code for the starting tire.</li>
+        <li><strong>toTireCode (String)</strong>: The tire code for the target tire.</li>
+        <li><strong>kilometers (Long)</strong>: The number of kilometers driven.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Long</code>: The calculated cost difference between the two tires.</p>
+
+    <h3>Logic:</h3>
+    <ul>
+        <li>Validates input parameters.</li>
+        <li>Queries tire information for both tire codes from the database.</li>
+        <li>Calculates the tire cost and consumption based on the provided kilometers.</li>
+        <li>Calculates the cost difference by subtracting the consumption costs of both tires.</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of tireCost:
+Dim cost As Long
+cost = tireCost("TireCode1", "TireCode2", 50000)
+MsgBox "The tire cost difference is: " & cost
+</code></pre>
+
+</div>
+
+</body>
+</html>

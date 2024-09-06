@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basStrings.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basStrings.bas</h1>
+
+    <!-- adhTrimNull Function -->
+    <div class="function">
+        <h2>Function: <code>adhTrimNull(strString As String) As String</code></h2>
+        <p>
+            The <code>adhTrimNull</code> function removes any null characters (<code>vbNullChar</code>) from a string returned by the Windows API.
+        </p>
+        <h3>Description:</h3>
+        <p>Sometimes strings returned from Windows API calls may contain embedded null characters (<code>vbNullChar</code>). This function removes the null characters from the string. It is important to ensure that the input string is not <code>Null</code> because the function cannot handle <code>Null</code> values.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strString</strong>: The string from which to remove null characters.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the input string with any null characters removed.</p>
+        <h3>Example:</h3>
+        <p>To trim null characters from a string:</p>
+        <pre>
+Dim cleanString As String
+cleanString = adhTrimNull("Hello" & vbNullChar & "World")
+Debug.Print cleanString  ' Output: "Hello"
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- ANSIToUni Function -->
+    <div class="function">
+        <h2>Function: <code>ANSIToUni(varAnsi As Variant) As Variant</code></h2>
+        <p>
+            The <code>ANSIToUni</code> function converts an ANSI string to a Unicode string.
+        </p>
+        <h3>Description:</h3>
+        <p>This function uses the <code>StrConv</code> function to convert a string from ANSI encoding to Unicode encoding. It is useful when working with API calls or other processes that require Unicode strings.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>varAnsi</strong>: The ANSI string to be converted to Unicode.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the Unicode version of the input ANSI string.</p>
+        <h3>Example:</h3>
+        <p>To convert an ANSI string to Unicode:</p>
+        <pre>
+Dim unicodeString As Variant
+unicodeString = ANSIToUni("ANSI String")
+Debug.Print unicodeString  ' Output: Unicode representation of "ANSI String"
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- UniToAnsi Function -->
+    <div class="function">
+        <h2>Function: <code>UniToAnsi(varUni As Variant) As Variant</code></h2>
+        <p>
+            The <code>UniToAnsi</code> function converts a Unicode string to an ANSI string.
+        </p>
+        <h3>Description:</h3>
+        <p>This function uses the <code>StrConv</code> function to convert a string from Unicode encoding to ANSI encoding. It is useful when working with legacy systems or APIs that require ANSI strings.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>varUni</strong>: The Unicode string to be converted to ANSI.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the ANSI version of the input Unicode string.</p>
+        <h3>Example:</h3>
+        <p>To convert a Unicode string to ANSI:</p>
+        <pre>
+Dim ansiString As Variant
+ansiString = UniToAnsi("Unicode String")
+Debug.Print ansiString  ' Output: "Unicode String" in ANSI encoding
+        </pre>
+    </div>
+
+</body>
+</html>

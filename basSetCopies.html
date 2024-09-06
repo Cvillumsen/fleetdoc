@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basSetCopies.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basSetCopies.bas</h1>
+
+    <!-- SetCopies Function -->
+    <div class="function">
+        <h2>Function: <code>SetCopies(obj As Object, intCopies As Integer)</code></h2>
+        <p>
+            The <code>SetCopies</code> function sets the number of copies for a form or report in design mode by modifying the <code>prtDevMode</code> property.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function allows you to set the number of copies a report or form will print by modifying the printer's DEVMODE structure. It can only be used when the report or form is open in design mode. If the report or form has no existing printer settings, the function uses the default printer's settings.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>obj</strong>: A reference to the form or report where the number of copies will be set.</li>
+            <li><strong>intCopies</strong>: An integer representing the number of copies to print.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>This function does not return a value directly, but it modifies the <code>prtDevMode</code> property of the form or report.</p>
+        <h3>Example:</h3>
+        <p>
+            To set the number of copies to 3 for a report named "rptCompany":
+        </p>
+        <pre>
+' Example usage
+SetCopies Reports!rptCompany, 3
+        </pre>
+        <p>This will set the number of copies to 3 for the "rptCompany" report.</p>
+    </div>
+
+    <hr>
+
+    <!-- SetCopies2 Function -->
+    <div class="function">
+        <h2>Function: <code>SetCopies2(obj As Object, intCopies As Integer)</code></h2>
+        <p>
+            The <code>SetCopies2</code> function is an alternative method for setting the number of copies for a form or report by using the <code>adhRetrieveDevMode</code> and <code>adhSetDevMode</code> helper functions.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function simplifies the process of setting the number of copies by first retrieving the current DEVMODE structure with <code>adhRetrieveDevMode</code>, then modifying the number of copies, and finally applying the changes using <code>adhSetDevMode</code>. It is a more streamlined version compared to the <code>SetCopies</code> function and performs error checking.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>obj</strong>: A reference to the form or report where the number of copies will be set.</li>
+            <li><strong>intCopies</strong>: An integer representing the number of copies to print.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the number of copies was successfully set, otherwise returns <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>
+            To set the number of copies to 3 for a report named "rptCompany":
+        </p>
+        <pre>
+Dim result As Boolean
+result = SetCopies2(Reports!rptCompany, 3)
+
+If result Then
+    Debug.Print "Number of copies set successfully."
+Else
+    Debug.Print "Failed to set number of copies."
+End If
+        </pre>
+        <p>This example sets the number of copies to 3 for the "rptCompany" report and checks if the operation was successful.</p>
+    </div>
+
+</body>
+</html>

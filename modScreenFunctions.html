@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modScreenFunctions.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Functions in modScreenFunctions.bas</h1>
+
+<!-- Fx_VerifyScreenResolution Function -->
+<div class="function">
+    <h2>Function: <code>Fx_VerifyScreenResolution() As Long</code></h2>
+    <p>The function <code>Fx_VerifyScreenResolution</code> retrieves the current screen resolution of the system in terms of horizontal screen resolution (in pixels). This can be used to ensure that the application runs optimally for different screen sizes by detecting the resolution programmatically.</p>
+
+    <h3>Parameters:</h3>
+    <p><strong>This function does not take any parameters.</strong></p>
+
+    <h3>Returns:</h3>
+    <p>The function returns a <code>Long</code> value representing the horizontal resolution of the screen (in pixels).</p>
+
+    <h3>Logic:</h3>
+    <p>The function works as follows:</p>
+    <ul>
+        <li>It calls the Windows API function <code>GetSystemMetrics</code> to get the horizontal and vertical resolution of the screen:
+            <ul>
+                <li><code>SM_CXSCREEN</code>: Retrieves the width of the primary monitor in pixels (horizontal resolution).</li>
+                <li><code>SM_CYSCREEN</code>: Retrieves the height of the primary monitor in pixels (vertical resolution).</li>
+            </ul>
+        </li>
+        <li>The function assigns the horizontal screen resolution value (<code>SM_CXSCREEN</code>) to the result of the function and returns it.</li>
+        <li>The vertical resolution (<code>SM_CYSCREEN</code>) is retrieved but not used in the current function logic.</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of Fx_VerifyScreenResolution:
+Dim screenWidth As Long
+screenWidth = Fx_VerifyScreenResolution()
+
+' Output: screenWidth will hold the width of the primary screen in pixels
+' For example, if the screen resolution is 1920x1080, screenWidth will be 1920
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function can be useful when developing applications that require a responsive layout based on screen resolution. For example, if the screen width is smaller than a certain threshold, the user interface might adjust elements accordingly.</p>
+</div>
+
+</body>
+</html>

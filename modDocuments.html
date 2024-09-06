@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modDocuments.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in modDocuments.bas</h1>
+
+    <!-- documentAddMergeReference Function -->
+    <div class="function">
+        <h2>Function: <code>documentAddMergeReference(MergeName As String, mergeSource As String, mergeCode As String)</code></h2>
+        <p>
+            The <code>documentAddMergeReference</code> function adds a reference for a document merge field to the <code>dbo_DocumentMergeFields</code> table, if it does not already exist.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function checks if a document merge field with the specified <code>MergeName</code> already exists in the <code>dbo_DocumentMergeFields</code> table. If it doesn't exist, the function adds a new record with the given <code>MergeName</code>, <code>mergeSource</code>, and <code>mergeCode</code>.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>MergeName</strong>: The name of the merge field to be checked or added.</li>
+            <li><strong>mergeSource</strong>: The source information for the merge field.</li>
+            <li><strong>mergeCode</strong>: The code associated with the merge field.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>This is a <code>Private</code> function and does not return a value.</p>
+        <h3>Example:</h3>
+        <p>To add a new document merge reference for a merge field:</p>
+        <pre>
+Call documentAddMergeReference("CustomerName", "CRM", "CUST001")
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Opens a recordset for the <code>dbo_DocumentMergeFields</code> table, filtering by the <code>MergeName</code>.</li>
+            <li>If the merge field doesn't already exist, it adds a new record with the provided <code>MergeName</code>, <code>mergeSource</code>, and <code>mergeCode</code>.</li>
+            <li>Handles any errors by raising an error message using <code>err.Raise</code>.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- docVAT Function -->
+    <div class="function">
+        <h2>Function: <code>docVAT()</code></h2>
+        <p>
+            The <code>docVAT</code> function returns the current VAT (Value Added Tax) rate used for documents.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This simple function returns the VAT rate, currently set to 25%.
+        </p>
+        <h3>Returns:</h3>
+        <p>Returns the VAT rate as an integer value, which is currently 25.</p>
+        <h3>Example:</h3>
+        <p>To retrieve the VAT rate for use in a calculation:</p>
+        <pre>
+Dim vatRate As Integer
+vatRate = docVAT()
+Debug.Print "VAT Rate: " & vatRate  ' Output: VAT Rate: 25
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Simply returns the value <code>25</code> as the VAT rate.</li>
+        </ul>
+    </div>
+
+</body>
+</html>

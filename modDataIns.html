@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modDataIns.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in modDataIns.bas</h1>
+
+    <!-- ShowData Function -->
+    <div class="function">
+        <h2>Function: <code>ShowData()</code></h2>
+        <p>
+            The <code>ShowData</code> function populates a ListView control with data from a recordset and displays relevant document information.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function clears and sets up the ListView control in the form <code>Ins_Letters</code> to display document information from a recordset. It dynamically adds column headers and rows based on the data retrieved. If no records are found, it adds a message indicating that no insurance letter was found. 
+        </p>
+        <h3>Returns:</h3>
+        <p>This is a <code>Private</code> function and does not return a value.</p>
+        <h3>Example:</h3>
+        <p>This function is typically called internally when the recordset is prepared for display. To populate the ListView with document data:</p>
+        <pre>
+Call ShowData()
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Clears the ListView control and sets the icon set and view style.</li>
+            <li>Checks if the recordset contains any data. If not, adds a placeholder message.</li>
+            <li>Adds column headers for the document information (Description, ID, Document Group, Filename, etc.).</li>
+            <li>Iterates through the recordset and populates the ListView with document data.</li>
+            <li>Closes and cleans up the recordset after populating the ListView.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- Ins_Letter_Data Function -->
+    <div class="function">
+        <h2>Function: <code>Ins_Letter_Data(tmpsok As Variant)</code></h2>
+        <p>
+            The <code>Ins_Letter_Data</code> function retrieves insurance letter data from the database based on a search parameter and displays it in the ListView.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function constructs an SQL query to retrieve document information from the <code>dbo_Documents</code> and <code>dbo_DocumentGroups</code> tables. It allows searching by document description or document group name using the <code>tmpsok</code> parameter. The results are displayed in the ListView by calling the <code>ShowData</code> function.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>tmpsok</strong>: A search parameter that filters documents by their description or document group name.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>This function does not return a value.</p>
+        <h3>Example:</h3>
+        <p>To retrieve and display insurance letter data based on a search string:</p>
+        <pre>
+Call Ins_Letter_Data("Policy")
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Constructs an SQL query to select document data from the <code>dbo_Documents</code> and <code>dbo_DocumentGroups</code> tables.</li>
+            <li>If <code>treesok</code> is 0, filters by document description or document group name based on the <code>tmpsok</code> parameter.</li>
+            <li>If <code>treesok</code> is not 0, filters by the document group ID.</li>
+            <li>Opens the recordset with the constructed query and calls the <code>ShowData</code> function to display the data in the ListView.</li>
+            <li>Handles any errors that occur during the execution of the SQL query or data retrieval.</li>
+        </ul>
+    </div>
+
+</body>
+</html>

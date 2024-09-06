@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFModule.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in PDFModule.bas</h1>
+
+    <!-- GetPrinterIndex Function -->
+    <div class="function">
+        <h2>Public Function: <code>GetPrinterIndex(PrinterName As String) As Integer</code></h2>
+        <p>
+            The <code>GetPrinterIndex</code> function returns the index of a specified printer by comparing
+            the <code>PrinterName</code> to the available printers in the <code>Application.Printers</code> collection.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function GetPrinterIndex(PrinterName As String) As Integer
+    Dim prtLoop As Printer
+    Dim i As Integer
+    i = 0
+
+    ' Loop through each printer in the application
+    For Each prtLoop In Application.Printers
+        With prtLoop
+            ' If the printer name matches, return the index
+            If StrComp(.DeviceName, PrinterName, vbTextCompare) = 0 Then
+                GetPrinterIndex = i
+            End If
+            i = i + 1
+        End With
+    Next prtLoop
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function loops through all available printers and returns the index of the printer whose name matches the input string.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>PrinterName</strong>: The name of the printer to search for in the available printer list.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>The function returns an <code>Integer</code> that represents the index of the matched printer.</p>
+    </div>
+
+    <hr>
+
+    <!-- DoPDFtest Function -->
+    <div class="function">
+        <h2>Function: <code>DoPDFtest() As Boolean</code></h2>
+        <p>
+            The <code>DoPDFtest</code> function creates and sends a report via email, either as a PDF, XLS, or RTF format, based on the specified formatting option.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function DoPDFtest() As Boolean
+    Dim repX As Report
+    Const Formatting = "PDF"
+    Const ReportName = "rptTable1"
+    Const EMailTo = "belinda.jallov@axus.dk"
+    Const EMailBcc = ""
+    Const txtSubject = "Rapport"
+    Const txtBody = ""
+
+    Select Case Formatting
+        Case acFormatRTF
+            DoCmd.OpenReport ReportName, acViewPreview, acReadOnly
+            DoCmd.SendObject acSendReport, ReportName, Formatting, EMailTo, , EMailBcc, txtSubject & " [" & ReportName & "]", txtBody, False
+            DoCmd.Close acReport, ReportName, acSaveNo
+        Case acFormatXLS
+            DoCmd.OpenQuery ReportName, acViewPreview, acReadOnly
+            DoCmd.SendObject acSendQuery, ReportName, Formatting, EMailTo, , EMailBcc, txtSubject & " [" & ReportName & "]", txtBody, False
+            DoCmd.Close acQuery, ReportName, acSaveNo
+        Case "PDF"
+            ' Save the report as a PDF and send it via email
+            SaveSetting "Dane Prairie Systems", "Win2PDF", "PDFFileName", "c:\temp\" & ReportName & ".pdf"
+            PrintToPrinter ReportName
+
+            Dim objNewMail As MailItem
+            If MsgBox("Send mail now?", vbQuestion + vbYesNo) = vbYes Then
+                Set objNewMail = Outlook.CreateItem(olMailItem)
+                objNewMail.Recipients.Add "belinda.jallov@axus.dk"
+                objNewMail.Subject = "Levering af rapport"
+                objNewMail.Body = "Here is your requested report."
+                objNewMail.Attachments.Add "c:\temp\" & ReportName & ".pdf"
+                objNewMail.Send
+                Set objNewMail = Nothing
+            End If
+    End Select
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function generates a report in the specified format and sends it via email. The PDF case is demonstrated with Win2PDF for saving the report.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>Formatting</strong>: The format for exporting the report (PDF, XLS, RTF).</li>
+            <li><strong>ReportName</strong>: The name of the report to export (in this case, <code>rptTable1</code>).</li>
+            <li><strong>EMailTo</strong>: Recipient's email address.</li>
+            <li><strong>txtSubject</strong>: Subject of the email.</li>
+            <li><strong>txtBody</strong>: Body text of the email.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>The function returns a <code>Boolean</code> indicating whether the email was successfully sent.</p>
+    </div>
+
+    <hr>
+
+    <!-- Hello Function -->
+    <div class="function">
+        <h2>Function: <code>Hello() As Boolean</code></h2>
+        <p>
+            The <code>Hello</code> function simply displays a message box that says "Hello".
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function Hello() As Boolean
+    MsgBox "Hello"
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function is a simple utility to display a "Hello" message in a message box.</p>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the message box is displayed successfully.</p>
+    </div>
+
+    <hr>
+
+    <!-- PDFtest Function -->
+    <div class="function">
+        <h2>Function: <code>PDFtest() As Boolean</code></h2>
+        <p>
+            The <code>PDFtest</code> function exports a report as a PDF file and sends it via email using the Win2PDF tool.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function PDFtest() As Boolean
+    Const Formatting = "PDF"
+    Const ReportName = "rptTable1"
+    Const EMailTo = "belinda.jallov@axus.dk"
+    Const EMailBcc = ""
+    Const txtSubject = "Rapport"
+    Const txtBody = ""
+
+    Select Case Formatting
+        Case acFormatRTF
+            DoCmd.OpenReport ReportName, acViewPreview, acReadOnly
+            DoCmd.SendObject acSendReport, ReportName, Formatting, EMailTo, , EMailBcc, txtSubject & " [" & ReportName & "]", txtBody, False
+            DoCmd.Close acReport, ReportName, acSaveNo
+        Case acFormatXLS
+            DoCmd.OpenQuery ReportName, acViewPreview, acReadOnly
+            DoCmd.SendObject acSendQuery, ReportName, Formatting, EMailTo, , EMailBcc, txtSubject & " [" & ReportName & "]", txtBody, False
+            DoCmd.Close acQuery, ReportName, acSaveNo
+        Case "PDF"
+            ' Set the output file name and export the report as a PDF
+            SaveSetting "Axus Report System", "Win2PDF", "PDFFileName", "c:\AccessTest.pdf"
+            DoCmd.OpenReport ReportName, acNormal
+            DoCmd.Close acReport, ReportName, acSaveNo
+    End Select
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>The function exports a report to a PDF file and saves it at the location specified by the <code>SaveSetting</code> call. The PDF is generated using the Win2PDF tool.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>Formatting</strong>: The format for exporting the report (PDF, XLS, RTF).</li>
+            <li><strong>ReportName</strong>: The name of the report to export (e.g., <code>rptTable1</code>).</li>
+            <li><strong>EMailTo</strong>: Recipient's email address

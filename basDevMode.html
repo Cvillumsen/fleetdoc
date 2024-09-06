@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basDevMode.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basDevMode.bas</h1>
+
+    <!-- adhRetrieveDevMode Function -->
+    <div class="function">
+        <h2>Function: <code>adhRetrieveDevMode(obj As Object, DM As adh_tagDevMode) As Boolean</code></h2>
+        <p>
+            The <code>adhRetrieveDevMode</code> function retrieves the <code>adh_tagDevMode</code> structure for a given form or report. It is used to extract the printer settings for the specified object.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function retrieves the DEVMODE structure, which contains printer settings such as paper size, orientation, and printer-specific features. If the object has no customized printer settings, the default printer's settings are used instead.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>obj</strong>: A reference to a form or report from which to retrieve the DEVMODE structure.</li>
+            <li><strong>DM</strong>: A variable of type <code>adh_tagDevMode</code> where the retrieved DEVMODE structure is stored.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the DEVMODE structure is successfully retrieved, otherwise <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>
+            To retrieve the printer settings for a form:
+        </p>
+        <pre>
+Dim DM As adh_tagDevMode
+If adhRetrieveDevMode(Forms!frmTest, DM) Then
+    Debug.Print "Device Name: " & DM.strDeviceName
+End If
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhSetDevMode Function -->
+    <div class="function">
+        <h2>Function: <code>adhSetDevMode(obj As Object, DM As adh_tagDevMode) As Boolean</code></h2>
+        <p>
+            The <code>adhSetDevMode</code> function sets the <code>prtDevMode</code> property of a form or report based on the provided <code>adh_tagDevMode</code> structure.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function allows you to programmatically assign printer settings (e.g., paper size, orientation) to a form or report. It takes the values stored in an <code>adh_tagDevMode</code> structure and applies them to the specified object.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>obj</strong>: A reference to the form or report for which the DEVMODE structure is being set.</li>
+            <li><strong>DM</strong>: A variable of type <code>adh_tagDevMode</code> containing the DEVMODE structure to set on the object.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the DEVMODE structure is successfully applied, otherwise <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>
+            To set the printer settings for a form:
+        </p>
+        <pre>
+Dim DM As adh_tagDevMode
+' Assume DM is filled with appropriate values
+If adhSetDevMode(Forms!frmTest, DM) Then
+    MsgBox "Printer settings applied."
+End If
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhGetDefaultDM Function -->
+    <div class="function">
+        <h2>Function: <code>adhGetDefaultDM(dr As adh_tagDeviceRec) As Variant</code></h2>
+        <p>
+            The <code>adhGetDefaultDM</code> function retrieves the default DEVMODE structure for a given printer device.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function retrieves the default printer settings for a device. It is useful when you need to access or modify the default settings (such as paper size, orientation) of a printer.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>dr</strong>: A record of type <code>adh_tagDeviceRec</code> that contains information about the printer device.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a <code>Variant</code> containing the default DEVMODE structure for the specified device.</p>
+        <h3>Example:</h3>
+        <p>
+            To retrieve the default DEVMODE structure for a printer:
+        </p>
+        <pre>
+Dim dr As adh_tagDeviceRec
+Dim DM As Variant
+' Assume dr is filled with the device information
+DM = adhGetDefaultDM(dr)
+If Not IsNull(DM) Then
+    Debug.Print "Default DEVMODE structure retrieved."
+End If
+        </pre>
+    </div>
+
+</body>
+</html>

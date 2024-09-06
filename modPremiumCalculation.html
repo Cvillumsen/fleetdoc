@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modPremiumCalculation.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Functions in modPremiumCalculation.bas</h1>
+
+<!-- CalcInsPremByMatrix Function -->
+<div class="function">
+    <h2>Function: <code>CalcInsPremByMatrix(TPLCasco As Currency, TPLCascoSplit As Single, RentalCar As Currency, GlassSplit As Single, DamageCategoryFactor As Single, DeductableFactor As Single, FleetSize As Integer, Streetprice As Single) As MatrixPremium</code></h2>
+    <p>This function calculates the insurance premium for a fleet of vehicles based on several factors like fleet size, street price, deductibles, and more. The result is returned in the form of a <code>MatrixPremium</code> structure, which includes the total premium, third-party liability (TPL) premium, casco premium, glass coverage premium, and rental car premium.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>TPLCasco</strong> (Currency) - The base amount for third-party liability (TPL) and casco insurance.</li>
+        <li><strong>TPLCascoSplit</strong> (Single) - The percentage split between TPL and casco insurance. It determines how much of the <code>TPLCasco</code> amount is allocated to each category.</li>
+        <li><strong>RentalCar</strong> (Currency) - The premium for rental car insurance.</li>
+        <li><strong>GlassSplit</strong> (Single) - The percentage used to calculate the glass insurance premium based on TPL and casco amounts.</li>
+        <li><strong>DamageCategoryFactor</strong> (Single) - A factor based on the damage category used to adjust the TPL and casco premiums.</li>
+        <li><strong>DeductableFactor</strong> (Single) - A factor based on the deductible amount used to adjust the TPL and casco premiums.</li>
+        <li><strong>FleetSize</strong> (Integer) - The size of the fleet. If the fleet size is larger than 100, a discount factor is applied to the TPL and casco premiums.</li>
+        <li><strong>Streetprice</strong> (Single) - The price of the vehicle. If the street price is higher than 1,200,000, a price factor is applied to increase the premium.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p>The function returns a <code>MatrixPremium</code> structure with the following fields:</p>
+    <ul>
+        <li><strong>TPL</strong> - The calculated premium for third-party liability insurance.</li>
+        <li><strong>Casco</strong> - The calculated premium for casco insurance.</li>
+        <li><strong>Glass</strong> - The calculated premium for glass coverage (10% of the total TPL and casco premiums).</li>
+        <li><strong>RentalCar</strong> - The rental car premium (passed in as an argument).</li>
+        <li><strong>Total</strong> - The total insurance premium (sum of TPL, casco, glass, and rental car premiums).</li>
+    </ul>
+
+    <h3>Logic:</h3>
+    <p>The function calculates the premium as follows:</p>
+    <ul>
+        <li><strong>Fleet Size Factor</strong>:
+            <ul>
+                <li>If the fleet size is 100 or fewer vehicles, the fleet size factor is 1.</li>
+                <li>If the fleet size is greater than 100, the fleet size factor is 0.98 (providing a small discount).</li>
+            </ul>
+        </li>
+        <li><strong>Street Price Factor</strong>:
+            <ul>
+                <li>If the street price is less than or equal to 1,200,000, the factor is 1.</li>
+                <li>If the street price is greater than 1,200,000, the factor is 1.05 (increasing the premium).</li>
+            </ul>
+        </li>
+        <li><strong>TPL Premium</strong> is calculated as:
+            <pre>TPLCasco * (TPLCascoSplit / 100) * FleetSizeFactor * DeductableFactor * DamageCategoryFactor * StreetPriceFactor</pre>
+        </li>
+        <li><strong>Casco Premium</strong> is calculated as:
+            <pre>TPLCasco * ((100 - TPLCascoSplit) / 100) * FleetSizeFactor * DeductableFactor * DamageCategoryFactor * StreetPriceFactor</pre>
+        </li>
+        <li><strong>Glass Premium</strong> is 10% of the sum of the TPL and Casco premiums.</li>
+        <li><strong>Total Premium</strong> is the sum of TPL, Casco, Glass, and RentalCar premiums.</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <pre><code>
+Dim premium As MatrixPremium
+premium = CalcInsPremByMatrix(50000, 70, 1500, 10, 1.2, 0.9, 50, 1100000)
+
+' Output will include:
+' premium.TPL (Third-party liability premium)
+' premium.Casco (Casco premium)
+' premium.Glass (Glass coverage premium)
+' premium.RentalCar (Rental car premium)
+' premium.Total (Total premium)
+</code></pre>
+</div>
+
+</body>
+</html>

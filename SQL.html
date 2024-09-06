@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in SQL.bas</h1>
+
+    <!-- DLookupSQL Function -->
+    <div class="function">
+        <h2>Public Function: <code>DLookupSQL(Field, table As String, Optional ByVal where As String = "") As Variant</code></h2>
+        <p>
+            The <code>DLookupSQL</code> function runs a SQL query directly against the database and returns the first value of the specified field from a table. It is an SQL-based alternative to the traditional <code>DLookup</code> function, especially useful for querying unlinked tables.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function DLookupSQL(Field, table As String, Optional ByVal where As String = "") As Variant
+On Error GoTo err_lookupSQL
+    Dim qd As QueryDef
+    Dim rs As Recordset
+    Dim Result As Variant
+    
+    Result = Null
+    
+    Set qd = CurrentDb().CreateQueryDef("")
+    
+    qd.Connect = "ODBC;DSN=" & GetODBCLink
+    If Len(where) > 0 Then
+        qd.sql = "select " & Field & " from " & table & " where " & where
+    Else
+        qd.sql = "select " & Field & " from " & table
+    End If
+    qd.ODBCTimeout = 0
+    qd.ReturnsRecords = True
+    Set rs = qd.OpenRecordset
+        
+    If Not rs.EOF And Not rs.EOF Then
+       Result = rs(0)
+       rs.MoveNext
+       If Not rs.EOF Then
+          Result = Null
+          err.Raise 100 + vbObjectError, "more than one row"
+       End If
+    Else
+       err.Raise 100 + vbObjectError, "no rows returned in call"
+    End If
+    
+exit_lookupSQL:
+On Error Resume Next
+    rs.Close
+    qd.Close
+    Set qd = Nothing
+    Set rs = Nothing
+    
+    DLookupSQL = Result
+    Exit Function
+    
+err_lookupSQL:
+    ' Cleanup
+    On Error Resume Next
+    Set qd = Nothing
+    Set rs = Nothing
+    raiseError
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function looks up a value from a SQL Server database using a query built based on the input parameters, and returns the result of the first field in the first record. If multiple records are returned, an error is raised.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>Field</strong>: The field to retrieve from the SQL table.</li>
+            <li><strong>table</strong>: The name of the table to query.</li>
+            <li><strong>where</strong> (Optional): The WHERE clause of the query. If omitted, all records are retrieved.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a <code>Variant</code> containing the value of the specified field. If multiple rows are returned, <code>Null</code> is returned and an error is raised.</p>
+        <h3>Function Logic:</h3>
+        <p>
+            - Creates a temporary query definition and connects to the SQL database via ODBC.<br>
+            - Builds a SQL query based on the provided <code>Field</code>, <code>table</code>, and <code>where</code> clause.<br>
+            - Executes the query and checks the result set.<br>
+            - If multiple rows are returned, it raises an error. Otherwise, it returns the value of the first row.
+        </p>
+    </div>
+
+    <hr>
+
+    <!-- DMaxSQL Function -->
+    <div class="function">
+        <h2>Public Function: <code>DMaxSQL(Field, table As String, Optional ByVal where = "") As Variant</code></h2>
+        <p>
+            The <code>DMaxSQL</code> function retrieves the maximum value of a field from a SQL Server table. It serves as a SQL-based alternative to the traditional <code>DMax</code> function.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function DMaxSQL(Field, table As String, Optional ByVal where = "") As Variant
+    DMaxSQL = DLookupSQL("max(" & Field & ")", table, where)
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>The function returns the maximum value of a specified field in the given table by calling <code>DLookupSQL</code> with an SQL aggregate <code>MAX</code> function.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>Field</strong>: The field for which the maximum value is to be retrieved.</li>
+            <li><strong>table</strong>: The name of the table to query.</li>
+            <li><strong>where</strong> (Optional): The WHERE clause to apply, if needed.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a <code>Variant</code> containing the maximum value of the specified field.</p>
+    </div>
+
+    <hr>
+
+    <!-- DCountSQL Function -->
+    <div class="function">
+        <h2>Public Function: <code>DCountSQL(Field, table As String, Optional ByVal where = "") As Variant</code></h2>
+        <p>
+            The <code>DCountSQL</code> function counts the number of records in a SQL Server table that match the given conditions. It is a SQL-based alternative to the traditional <code>DCount</code> function.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function DCountSQL(Field, table As String, Optional ByVal where = "") As Variant
+    DCountSQL = DLookupSQL("count(" & Field & ")", table, where)
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function returns the count of records that match the specified conditions, using the SQL aggregate <code>COUNT</code> function.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>Field</strong>: The field to count (usually <code>*</code> or a specific field).</li>
+            <li><strong>table</strong>: The name of the table to query.</li>
+            <li><strong>where</strong> (Optional): The WHERE clause to filter records.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a <code>Variant</code> containing the count of records that match the given conditions.</p>
+    </div>
+
+    <hr>
+
+    <!-- getErrorLogID Function -->
+    <div class="function">
+        <h2>Public Function: <code>getErrorLogID(meth As Integer, errorLogID As Long) As Long</code></h2>
+        <p>
+            The <code>getErrorLogID</code> function returns a modified error log ID depending on the type of error (either Access or SQL Server).
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function getErrorLogID(meth As Integer, errorLogID As Long) As Long
+    If meth = ERR_METH_ACCESS_ERROR Then
+       getErrorLogID = errorLogID + vbObjectError
+    ElseIf meth = ERR_METH_SQL_SERVER_ERROR Then
+       getErrorLogID = errorLogID - vbObjectError
+    Else
+       getErrorLogID = -1
+    End If
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function modifies the error log ID based on whether the error is an Access error or an SQL Server error.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>meth</strong>: An integer specifying the type of error (either Access or SQL Server).</li>
+            <li><strong>errorLogID</strong>: The original error log ID.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a modified error log ID depending on the error method type.</p>
+        <h3>Function Logic:</h3>
+       

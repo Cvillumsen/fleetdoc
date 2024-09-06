@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Functions.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in Utility Functions.bas</h1>
+
+    <!-- IsLoaded Function -->
+    <div class="function">
+        <h2>Function: <code>IsLoaded(ByVal strFormName As String) As Boolean</code></h2>
+        <p>
+            The <code>IsLoaded</code> function checks if a specific form is currently open in Form view or Datasheet view.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function is used to determine whether a form is actively loaded and displayed. It returns <code>True</code> if the form is open and visible in Form or Datasheet view, and <code>False</code> if it is not.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strFormName</strong>: The name of the form to check if it is loaded.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the form is loaded and visible; otherwise, <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>
+            To check if the form "frmCustomer" is open:
+        </p>
+        <pre>
+If IsLoaded("frmCustomer") Then
+    MsgBox "The Customer form is currently open."
+Else
+    MsgBox "The Customer form is not open."
+End If
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- Get_NPV Function -->
+    <div class="function">
+        <h2>Public Function: <code>Get_NPV(PERIOD As Integer, Flat_rate As Single, Maintenance As Single, Discount_rate As Single, Wintertire As Single, Termination As Single, Startup As Single, Atroe As Double, Tax_rate As Single, Contract_type As String, Up_front As Single, Change_month As Integer, Lease_diff As Single, Accessories As Single, Debt As Double) As Single</code></h2>
+        <p>
+            The <code>Get_NPV</code> function calculates the Net Present Value (NPV) based on the provided financial parameters such as period, flat rate, maintenance, discount rate, and other lease-related factors.
+        </p>
+        <h3>Description:</h3>
+        <p>This function calculates the NPV of a financial contract using cash flows over a period, adjusting for factors like lease differences, upfront payments, and maintenance expenses.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>PERIOD</strong>: The number of periods (usually months) for which the NPV is calculated.</li>
+            <li><strong>Flat_rate</strong>: The fixed monthly payment or rate.</li>
+            <li><strong>Maintenance</strong>: The total maintenance cost spread over the contract period.</li>
+            <li><strong>Discount_rate</strong>: The annual discount rate applied to calculate the present value.</li>
+            <li><strong>Wintertire</strong>: The cost of winter tires, applied every 6th period.</li>
+            <li><strong>Termination</strong>: Termination or residual value added at the end of the contract period.</li>
+            <li><strong>Startup</strong>: The initial startup cost, applied at the beginning of the contract.</li>
+            <li><strong>Atroe</strong>: Calculated return on equity for the contract (output parameter).</li>
+            <li><strong>Tax_rate</strong>: The applicable tax rate, used in the calculation of financial returns.</li>
+            <li><strong>Contract_type</strong>: The type of contract, which affects how the financials are handled (e.g., finance lease).</li>
+            <li><strong>Up_front</strong>: Any upfront payments made at the beginning of the contract.</li>
+            <li><strong>Change_month</strong>: The month in which a change in the lease payment occurs (e.g., price increase or decrease).</li>
+            <li><strong>Lease_diff</strong>: The difference in the lease payment that applies after the change month.</li>
+            <li><strong>Accessories</strong>: Cost of accessories, which may be deducted from the upfront payment.</li>
+            <li><strong>Debt</strong>: The amount of debt financed under the contract, used in return calculations.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the calculated NPV as a <code>Single</code> value.</p>
+        <h3>Example:</h3>
+        <p>
+            To calculate the NPV for a 36-month lease with specific values:
+        </p>
+        <pre>
+Dim result As Single
+Dim Atroe As Double
+result = Get_NPV(36, 500, 50, 5, 200, 1000, 100, Atroe, 30, "Standard", 200, 12, 0, 0, 5000)
+MsgBox "The NPV is: " & result
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- GenerateRandomNumber Function -->
+    <div class="function">
+        <h2>Function: <code>GenerateRandomNumber(NoOfDigits As Integer)</code></h2>
+        <p>
+            The <code>GenerateRandomNumber</code> function generates a random number with the specified number of digits.
+        </p>
+        <h3>Description:</h3>
+        <p>This function creates a random number based on the specified number of digits.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>NoOfDigits</strong>: The number of digits in the generated random number.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a random number as an <code>Integer</code> with the specified number of digits.</p>
+        <h3>Example:</h3>
+        <p>
+            To generate a random 4-digit number:
+        </p>
+        <pre>
+Dim randomNumber As Integer
+randomNumber = GenerateRandomNumber(4)
+MsgBox "Random number: " & randomNumber
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- ValidateEmailAddress Function -->
+    <div class="function">
+        <h2>Public Function: <code>ValidateEmailAddress(ByVal strEmailAddress As String) As Boolean</code></h2>
+        <p>
+            The <code>ValidateEmailAddress</code> function checks if the provided string is a valid email address format.
+        </p>
+        <h3>Description:</h3>
+        <p>This function validates an email address by matching it against a regular expression pattern for valid email structures.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strEmailAddress</strong>: The email address string to validate.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the email address is valid, otherwise returns <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>
+            To validate an email address:
+        </p>
+        <pre>
+Dim isValid As Boolean
+isValid = ValidateEmailAddress("test@example.com")
+If isValid Then
+    MsgBox "Valid email address."
+Else
+    MsgBox "Invalid email address."
+End If
+        </pre>
+    </div>
+
+</body>
+</html>

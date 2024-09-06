@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modSorteringListView.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Functions in modSorteringListView.bas</h1>
+
+<!-- CompareDates Function -->
+<div class="function">
+    <h2>Function: <code>CompareDates(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal hwnd As Long) As Long</code></h2>
+    <p>This function is used to compare two date values in a ListView control for sorting purposes. It allows sorting in ascending or descending order based on a public variable <code>sOrder</code>, which is set when a column header is clicked in the ListView control.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>lParam1 (Long)</strong>: The parameter identifying the first date value to be compared.</li>
+        <li><strong>lParam2 (Long)</strong>: The parameter identifying the second date value to be compared.</li>
+        <li><strong>hwnd (Long)</strong>: The handle to the ListView control where the sorting is being applied.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Long</code>: The result of the comparison:
+    <ul>
+        <li><code>0</code> if the first date is less than the second date.</li>
+        <li><code>1</code> if the two dates are equal.</li>
+        <li><code>2</code> if the first date is greater than the second date.</li>
+    </ul></p>
+
+    <h3>Logic:</h3>
+    <p>The function retrieves the dates from the ListView control using the helper function <code>ListView_GetItemDate</code>. Depending on the value of <code>sOrder</code> (which specifies the sort direction), the function compares the two dates and returns the appropriate result.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of CompareDates:
+Dim result As Long
+result = CompareDates(param1, param2, hwnd)
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function is useful for implementing sorting of date columns in a ListView control, typically in applications that display data in tabular format with sortable columns.</p>
+</div>
+
+<hr>
+
+<!-- CompareValues Function -->
+<div class="function">
+    <h2>Function: <code>CompareValues(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal hwnd As Long) As Long</code></h2>
+    <p>This function compares two numeric values in a ListView control for sorting purposes, allowing sorting in ascending or descending order based on the <code>sOrder</code> variable, similar to <code>CompareDates</code>.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>lParam1 (Long)</strong>: The parameter identifying the first numeric value to be compared.</li>
+        <li><strong>lParam2 (Long)</strong>: The parameter identifying the second numeric value to be compared.</li>
+        <li><strong>hwnd (Long)</strong>: The handle to the ListView control where sorting is applied.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Long</code>: The result of the comparison:
+    <ul>
+        <li><code>0</code> if the first value is less than the second value.</li>
+        <li><code>1</code> if the two values are equal.</li>
+        <li><code>2</code> if the first value is greater than the second value.</li>
+    </ul></p>
+
+    <h3>Logic:</h3>
+    <p>The function retrieves the numeric values from the ListView control using the helper function <code>ListView_GetItemValueStr</code>. Based on the <code>sOrder</code> variable, it compares the values and returns the appropriate result.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of CompareValues:
+Dim result As Long
+result = CompareValues(param1, param2, hwnd)
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function is useful for implementing sorting of numeric columns in a ListView control, often used when displaying numeric data such as IDs, prices, or quantities.</p>
+</div>
+
+<hr>
+
+<!-- ListView_GetItemDate Function -->
+<div class="function">
+    <h2>Function: <code>ListView_GetItemDate(hwnd As Long, lParam As Long) As Date</code></h2>
+    <p>This function retrieves the date value associated with a specified item in a ListView control.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>hwnd (Long)</strong>: The handle to the ListView control where the item is located.</li>
+        <li><strong>lParam (Long)</strong>: The parameter identifying the specific item whose date value is to be retrieved.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Date</code>: The date value corresponding to the specified ListView item.</p>
+
+    <h3>Logic:</h3>
+    <ul>
+        <li>The function uses the <code>SendMessageSORT</code> API to retrieve the text value of the specified ListView item.</li>
+        <li>The retrieved text is then converted into a date using the <code>CDate</code> function and returned.</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of ListView_GetItemDate:
+Dim itemDate As Date
+itemDate = ListView_GetItemDate(hwnd, param)
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function is typically used in conjunction with sorting functions like <code>CompareDates</code> to retrieve and compare date values in a ListView control.</p>
+</div>
+
+<hr>
+
+<!-- ListView_GetItemValueStr Function -->
+<div class="function">
+    <h2>Function: <code>ListView_GetItemValueStr(hwnd As Long, lParam As Long) As Long</code></h2>
+    <p>This function retrieves the numeric value (as a string) associated with a specified item in a ListView control, converts it to a long integer, and returns it.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>hwnd (Long)</strong>: The handle to the ListView control where the item is located.</li>
+        <li><strong>lParam (Long)</strong>: The parameter identifying the specific item whose value is to be retrieved.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Long</code>: The numeric value corresponding to the specified ListView item.</p>
+
+    <h3>Logic:</h3>
+    <ul>
+        <li>The function uses the <code>SendMessageSORT</code> API to retrieve the text value of the specified ListView item.</li>
+        <li>The retrieved text is then converted into a long integer using the <code>CLng</code> function and returned.</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of ListView_GetItemValueStr:
+Dim itemValue As Long
+itemValue = ListView_GetItemValueStr(hwnd, param)
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function is useful when you need to retrieve and compare numeric values from a ListView control, such as in the <code>CompareValues</code> function for sorting numeric columns.</p>
+</div>
+
+<hr>
+
+<!-- FARPROC Function -->
+<div class="function">
+    <h2>Function: <code>FARPROC(ByVal pfn As Long) As Long</code></h2>
+    <p>This function receives and returns the value of the <code>AddressOf</code> operator. It is a workaround needed when passing a function pointer (like <code>AddressOf</code>) to an API call such as <code>SendMessage</code>.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>pfn (Long)</strong>: The address of the function to be passed to the API.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Long</code>: The same value that was passed in the <code>pfn</code> parameter.</p>
+
+    <h3>Logic:</h3>
+    <p>The function simply returns the passed-in value without modification. This is useful for passing function pointers to API calls.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of FARPROC:
+Dim procAddr As Long
+procAddr = FARPROC(AddressOf SomeFunction)
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function is used when calling APIs that require a function pointer as a parameter, such as passing a sorting function to the <code>SendMessage</code> API for ListView sorting.</p>
+</div>
+
+</body>
+</html>

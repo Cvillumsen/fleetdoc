@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basPrtDest.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basPrtDest.bas</h1>
+
+    <!-- adhRetrieveDevNames Function -->
+    <div class="function">
+        <h2>Function: <code>adhRetrieveDevNames(strName As String, intType As Integer, varDM As Variant) As Variant</code></h2>
+        <p>
+            The <code>adhRetrieveDevNames</code> function retrieves the <code>prtDevNames</code> property from a specified form or report, allowing the modification of the printer settings.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function opens the specified form or report and retrieves the <code>prtDevNames</code> property, which contains the printer device names. If the printer settings have not been defined, it retrieves the default device's <code>DevMode</code> structure.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strName</strong>: The name of the form or report to retrieve the printer settings from.</li>
+            <li><strong>intType</strong>: Specifies whether the object is a form (<code>acForm</code>) or a report (<code>acReport</code>).</li>
+            <li><strong>varDM</strong>: A <code>Variant</code> that will store the <code>DevMode</code> structure of the printer.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a <code>Variant</code> containing the <code>prtDevNames</code> string, or <code>Null</code> if it could not retrieve the string.</p>
+        <h3>Example:</h3>
+        <p>
+            To retrieve the printer settings for a form named "frmReport":
+        </p>
+        <pre>
+Dim varDM As Variant
+Dim devNames As Variant
+
+devNames = adhRetrieveDevNames("frmReport", acForm, varDM)
+
+If Not IsNull(devNames) Then
+    Debug.Print "Printer Device Names: " & devNames
+End If
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- GetObjectType Function -->
+    <div class="function">
+        <h2>Private Function: <code>GetObjectType(obj As Object) As Integer</code></h2>
+        <p>
+            The <code>GetObjectType</code> function determines whether the provided object is a form or a report.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function attempts to identify if the given object is a form or a report. It assumes that only forms and reports are passed to it, and does not handle other object types. The function returns the appropriate type constant (<code>acForm</code> or <code>acReport</code>).
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>obj</strong>: A reference to the object (either a form or report) whose type needs to be determined.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>acForm</code> if the object is a form, and <code>acReport</code> if it is a report.</p>
+        <h3>Example:</h3>
+        <p>
+            To determine the type of an object:
+        </p>
+        <pre>
+Dim objType As Integer
+objType = GetObjectType(Forms!frmExample)
+
+If objType = acForm Then
+    Debug.Print "This is a form."
+ElseIf objType = acReport Then
+    Debug.Print "This is a report."
+End If
+        </pre>
+    </div>
+
+</body>
+</html>

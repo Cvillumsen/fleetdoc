@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module11.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in Module11.bas</h1>
+
+    <!-- TestIt Function -->
+    <div class="function">
+        <h2>Function: <code>TestIt()</code></h2>
+        <p>
+            The <code>TestIt</code> function demonstrates how to create a file selection dialog in Microsoft Access
+            using predefined filters for file types and custom dialog title. The selected file is displayed
+            in a message box, and the flags used for the file open dialog are printed in the debug window.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function TestIt()
+    Dim strFilter As String
+    Dim lngFlags As Long
+    ' Add filters for different file types
+    strFilter = ahtAddFilterItem(strFilter, "Access Files (*.mda, *.mdb)", "*.MDA;*.MDB")
+    strFilter = ahtAddFilterItem(strFilter, "dBASE Files (*.dbf)", "*.DBF")
+    strFilter = ahtAddFilterItem(strFilter, "Text Files (*.txt)", "*.TXT")
+    strFilter = ahtAddFilterItem(strFilter, "All Files (*.*)", "*.*")
+    
+    ' Open file dialog and show selected file
+    MsgBox "You selected: " & ahtCommonFileOpenSave(InitialDir:="C:\", _
+        Filter:=strFilter, FilterIndex:=3, flags:=lngFlags, _
+        DialogTitle:="Hello! Open Me!")
+    
+    ' Print the output flags in the debug window
+    Debug.Print Hex(lngFlags)
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>
+            <strong>strFilter</strong> is used to define the types of files that can be selected by the user.
+            The <strong>ahtCommonFileOpenSave</strong> function is invoked to open the file dialog with
+            predefined parameters like the initial directory, filter options, and dialog title.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>InitialDir</strong>: Specifies the initial directory (set to "C:\").</li>
+            <li><strong>Filter</strong>: Sets the types of files the user can select.</li>
+            <li><strong>FilterIndex</strong>: Specifies the default filter to be applied (3 - Text Files in this case).</li>
+            <li><strong>flags</strong>: Used to store the output flags from the file dialog.</li>
+            <li><strong>DialogTitle</strong>: The custom title of the file dialog ("Hello! Open Me!").</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- GetOpenFile Function -->
+    <div class="function">
+        <h2>Function: <code>GetOpenFile(Optional varDirectory As Variant, Optional varTitleForDialog As Variant)</code></h2>
+        <p>
+            The <code>GetOpenFile</code> function opens a file dialog to allow users to select an Access database file.
+            This function includes optional parameters for specifying the initial directory and the dialog title.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function GetOpenFile(Optional varDirectory As Variant, Optional varTitleForDialog As Variant) As Variant
+    Dim strFilter As String
+    Dim lngFlags As Long
+    Dim varFileName As Variant
+
+    ' Set flags to ensure file must exist and prevent changing directories
+    lngFlags = ahtOFN_FILEMUSTEXIST Or ahtOFN_HIDEREADONLY Or ahtOFN_NOCHANGEDIR
+
+    ' Set default directory and title if missing
+    If IsMissing(varDirectory) Then varDirectory = ""
+    If IsMissing(varTitleForDialog) Then varTitleForDialog = ""
+
+    ' Add filter for Access database files
+    strFilter = ahtAddFilterItem(strFilter, "Access (*.mdb)", "*.MDB;*.MDA")
+
+    ' Open file dialog and get the selected file name
+    varFileName = ahtCommonFileOpenSave(OpenFile:=True, InitialDir:=varDirectory, _
+        Filter:=strFilter, flags:=lngFlags, DialogTitle:=varTitleForDialog)
+
+    ' If a file is selected, trim null characters from the file name
+    If Not IsNull(varFileName) Then
+        varFileName = TrimNull(varFileName)
+    End If
+
+    ' Return the selected file name
+    GetOpenFile = varFileName
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>
+            This function is used to open a file dialog with the ability to filter for Access database files
+            (MDB and MDA). The function supports optional parameters to specify the initial directory and
+            dialog title.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>varDirectory</strong> (Optional): Initial directory for the file dialog. Defaults to an empty string.</li>
+            <li><strong>varTitleForDialog</strong> (Optional): Title for the file dialog. Defaults to an empty string.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>The function returns the name of the selected file as a <code>Variant</code>. If no file is selected, it returns <code>Null</code>.</p>
+    </div>
+
+    <hr>
+
+    <!-- TrimNull Function -->
+    <div class="function">
+        <h2>Private Function: <code>TrimNull(ByVal strItem As String)</code></h2>
+        <p>
+            The <code>TrimNull</code> function is a utility to remove null characters (<code>vbNullChar</code>) from a string.
+            This is often necessary when dealing with file names returned from certain Windows API calls.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Private Function TrimNull(ByVal strItem As String) As String
+    Dim intPos As Integer
+    ' Find the position of the null character in the string
+    intPos = InStr(strItem, vbNullChar)
+    
+    ' If a null character is found, trim the string
+    If intPos > 0 Then
+        TrimNull = Left(strItem, intPos - 1)
+    Else
+        TrimNull = strItem
+    End If
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function scans the provided string for any null characters and removes them, returning the clean string.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strItem</strong>: The string to be trimmed of null characters.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>The function returns the string without any null characters.</p>
+    </div>
+
+    <hr>
+
+</body>
+</html>

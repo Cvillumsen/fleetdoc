@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilities.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in Utilities.bas</h1>
+
+    <!-- isNull_ Function -->
+    <div class="function">
+        <h2>Function: <code>isNull_(v As Variant, ifnull As Variant)</code></h2>
+        <p>
+            The <code>isNull_</code> function returns a default value if the input is <code>Null</code>; otherwise, it returns the input value itself.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function isNull_(v As Variant, ifnull As Variant)
+    If IsNull(v) Then
+        isNull_ = ifnull
+    Else
+        isNull_ = v
+    End If
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function provides a way to return an alternate value when a variable is <code>Null</code>.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>v</strong>: The value to check for <code>Null</code>.</li>
+            <li><strong>ifnull</strong>: The value to return if <code>v</code> is <code>Null</code>.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>v</code> if it's not <code>Null</code>, otherwise returns <code>ifnull</code>.</p>
+    </div>
+
+    <hr>
+
+    <!-- IsMemberOfRole Function -->
+    <div class="function">
+        <h2>Public Function: <code>IsMemberOfRole(ByVal Role As String) As Boolean</code></h2>
+        <p>
+            The <code>IsMemberOfRole</code> function checks whether the current user is a member of a specified database role.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function IsMemberOfRole(ByVal Role As String) As Boolean
+    Dim rs As Recordset
+    Dim cm As New ADODB.Command
+    Dim sql As String
+    sql = "exec IsMemberOfRole '" & Role & "'"
+    Set rs = PassSql2(sql)
+    IsMemberOfRole = rs(0).Value
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function runs a stored procedure that checks if the user belongs to the specified role in the SQL Server.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>Role</strong>: The name of the role to check membership for.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the user is a member of the role, otherwise <code>False</code>.</p>
+        <h3>Function Logic:</h3>
+        <p>
+            - Constructs a SQL query that calls the <code>IsMemberOfRole</code> procedure.<br>
+            - Executes the query and retrieves the result, which indicates the user's role membership.
+        </p>
+    </div>
+
+    <hr>
+
+    <!-- SetAppTitle Function -->
+    <div class="function">
+        <h2>Public Function: <code>SetAppTitle(TitleText As String, AddToTitle As Boolean)</code></h2>
+        <p>
+            The <code>SetAppTitle</code> function sets the application window title in Access, either replacing or appending to the existing title.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function SetAppTitle(TitleText As String, AddToTitle As Boolean)
+    Dim strWindowTitle As String
+    strWindowTitle = Space(260)
+   
+    If AddToTitle = True Then
+        SetWindowText Application.hWndAccessApp, CurrentDb.Properties("AppTitle") & " - " & TitleText
+    Else
+        SetWindowText Application.hWndAccessApp, TitleText
+    End If
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>Modifies the title of the Access application window by setting a new title or appending the provided text to the existing title.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>TitleText</strong>: The text to display as the application title.</li>
+            <li><strong>AddToTitle</strong>: Boolean flag that determines whether to append the new title or replace it.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>No return value.</p>
+    </div>
+
+    <hr>
+
+    <!-- SetAppTitleDuringStartup Function -->
+    <div class="function">
+        <h2>Function: <code>SetAppTitleDuringStartup()</code></h2>
+        <p>
+            The <code>SetAppTitleDuringStartup</code> function sets the application title during the startup process, using the ODBC connection link as part of the title.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function SetAppTitleDuringStartup()
+    SetAppTitle GetODBCLink, True
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>Calls the <code>SetAppTitle</code> function during application startup to display the ODBC link as part of the application title.</p>
+        <h3>Returns:</h3>
+        <p>No return value.</p>
+    </div>
+
+    <hr>
+
+    <!-- RecordsExist Function -->
+    <div class="function">
+        <h2>Public Function: <code>RecordsExist(QueryName As String) As Boolean</code></h2>
+        <p>
+            The <code>RecordsExist</code> function checks whether a specified query returns any records.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function RecordsExist(QueryName As String) As Boolean
+    Dim Qry As QueryDef
+    Dim rs As Recordset
+
+    Set Qry = CurrentDb.QueryDefs(QueryName)
+    Set rs = Qry.OpenRecordset
+    If rs.EOF = True Then
+        RecordsExist = False
+    Else
+        RecordsExist = True
+    End If
+    rs.Close
+    Set rs = Nothing
+    Set Qry = Nothing
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function runs the specified query and checks if any records are returned.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>QueryName</strong>: The name of the query to execute.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if records exist, otherwise <code>False</code>.</p>
+    </div>
+
+    <hr>
+
+    <!-- ConnectDirect_test Function -->
+    <div class="function">
+        <h2>Public Function: <code>ConnectDirect_test() As Boolean</code></h2>
+        <p>
+            The <code>ConnectDirect_test</code> function performs a file copy test by moving a file between directories and then deleting it, primarily used for testing connections.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Public Function ConnectDirect_test() As Boolean
+On Error GoTo Errortrap
+    ConnectDirect_test = False
+    Dim Linefile_path As String
+    Dim StrPath As String
+
+    Linefile_path = DLookup("FilePath", "dbo_Sys_Paths", "[Interface_nr]=2044 AND [Comp_id]=" & 1)
+    StrPath = DLookup("FilePath", "dbo_Sys_Paths", "[Interface_nr]=2043 AND [Comp_id]=" & 1)
+    FileCopy Linefile_path & "ConnectDirect_test.txt", StrPath & "ConnectDirect_test.txt"
+    Kill StrPath & "ConnectDirect_test.txt"
+    ConnectDirect_test = True
+    Exit Function
+
+Errortrap:
+    ConnectDirect_test = False
+    Exit Function
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function tests the connection by copying and then deleting a test file.</p>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the test is successful, otherwise <code>False</code>.</p>
+    </div>
+
+    <hr>
+
+    <!-- Datestring Function -->
+    <div class="function">
+        <h2>Function: <code>Datestring()</code></h2>
+        <p>
+            The <code>Datestring</code> function returns a formatted string of the current month and year, which can be used as part of file names.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function Datestring()
+    Datestring = Format(Month(Date), "000") & Format(Year(Date), "0000")
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function generates a string representing the current month and year, formatted as three-digit month and four-digit year.</p>
+        <h3>Returns:</h3>
+        <p>Returns a string in the format <code>MMMYYYY</code> (e.g., <code>0092023</code>).</p>
+    </div>
+
+    <hr>
+
+    <!-- GetNamedOpenArgs Function -->
+    <div class="function">
+        <h2>Function: <code>GetNamedOpenArgs(argStr As String, namedArg As String) As Variant</code></h2>
+        <p>
+            The <code>GetNamedOpenArgs</code> function extracts the value of a named argument from a delimited argument string.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function GetNamedOpenArgs(argStr As String, namedArg As String) As Variant
+    Dim argArr() As String
+    Dim i As Integer
+    Dim ArgNames() As String
+    Dim ArgValues() As String
+    Dim j As Integer
+    Dim argumentItem() As String
+    Dim funcRes As Variant
+
+    argArr = SPLIT(argStr, ",")
+    ReDim ArgNames(UBound(argArr))
+    ReDim ArgValues(UBound(argArr))
+
+    j = 0
+    For i = LBound(argArr) To UBound(argArr)
+        argumentItem() = SPLIT(argArr(i), "=")
+        ArgNames(j) = argumentItem(0)
+        ArgValues(j) = argumentItem(1)
+        If (UCase(ArgNames(j)) = UCase(namedArg)) Then funcRes = ArgValues(j)
+    Next i
+    GetNamedOpenArgs = funcRes
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function parses an argument string to find and return the value of a specified named argument.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>argStr</strong>: The argument string in the format <code>varname=varvalue</code>, separated by commas.</li>
+            <li><strong>namedArg</strong>: The name of the argument to search for.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the value of the specified named argument as a <code>Variant</code>.</p>
+    </div>
+
+    <hr>
+
+    <!-- GetParmFromString Function -->
+    <div class="function">
+        <h2>Function: <code>GetParmFromString(inputString As String, wantedParam As Integer, delim As String)</code></h2>
+        <p>
+            The <code>GetParmFromString</code> function extracts a specific parameter from a delimited string.
+        </p>
+        <h3>Code:</h3>
+        <pre>
+Function GetParmFromString(inputString As String, wantedParam As Integer, delim As String)
+    Dim astrWords() As String
+    Dim CountWords As Integer
+
+    wantedParam = wantedParam - 1
+    astrWords = SPLIT(inputString, delim)
+    CountWords = UBound(astrWords) - LBound(astrWords) + 1
+
+    If wantedParam < CountWords Then
+        GetParmFromString = astrWords(wantedParam)
+    Else
+        GetParmFromString = "NOT!VALID"
+    End If
+End Function
+        </pre>
+        <h3>Description:</h3>
+        <p>This function splits an input string by a specified delimiter and returns the parameter at the specified index.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>inputString</strong>: The delimited input string.</li>
+            <li><strong>wantedParam</strong>: The 1-based index of the parameter to retrieve.</li>
+            <li><strong>delim</strong>: The delimiter used to separate parameters in the string.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the specified parameter as a string, or "NOT!VALID" if the index is out of bounds.</p>
+    </div>
+
+    <hr>
+
+</body>
+</html>

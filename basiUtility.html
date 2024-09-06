@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basiUtility.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basiUtility.bas</h1>
+
+    <!-- GetScrollbarOffset Function -->
+    <div class="function">
+        <h2>Function: <code>GetScrollbarOffset(ByRef frm As Access.Form, sBar As String) As Long</code></h2>
+        <p>
+            The <code>GetScrollbarOffset</code> function returns the width or height of a form's scrollbars, depending on whether it's a horizontal or vertical scrollbar.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function calculates the width (horizontal scrollbar) or height (vertical scrollbar) based on the form's <code>ScrollBars</code> property. It handles different configurations of scrollbars (none, horizontal only, vertical only, or both). If an error occurs, it shows an error message using a message box.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>frm</strong>: A reference to the form from which the scrollbar offset is being retrieved.</li>
+            <li><strong>sBar</strong>: A string that indicates whether to retrieve the horizontal ("H") or vertical ("V") scrollbar offset.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a <code>Long</code> value representing the scrollbar width for horizontal scrollbars or the scrollbar height for vertical scrollbars, depending on the <code>sBar</code> parameter.</p>
+        <h3>Example:</h3>
+        <p>
+            To get the horizontal scrollbar offset of a form:
+        </p>
+        <pre>
+Dim hOffset As Long
+hOffset = GetScrollbarOffset(Forms!frmSample, "H")
+Debug.Print "Horizontal Scrollbar Offset: " & hOffset
+        </pre>
+        <p>
+            To get the vertical scrollbar offset of a form:
+        </p>
+        <pre>
+Dim vOffset As Long
+vOffset = GetScrollbarOffset(Forms!frmSample, "V")
+Debug.Print "Vertical Scrollbar Offset: " & vOffset
+        </pre>
+        <h3>Error Handling:</h3>
+        <p>If an error occurs during execution, the function displays an error message using a message box.</p>
+    </div>
+
+</body>
+</html>

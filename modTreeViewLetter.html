@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modTreeViewLetter.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        hr {
+            border: 1px solid #ccc;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Functions in modTreeViewLetter.bas</h1>
+
+<!-- DamageLetters_tree_merge Function -->
+<div class="function">
+    <h2>Function: <code>DamageLetters_tree_merge(treeKey As String)</code></h2>
+    <p>This function populates a TreeView control with document information from the database, based on a given department code (<code>treeKey</code>).</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>treeKey (String)</strong>: The department code used to filter documents in the database.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Integer</code>: The number of documents added to the TreeView control. Returns <code>0</code> if no documents are found.</p>
+
+    <h3>Logic:</h3>
+    <p>The function constructs an SQL query to retrieve document filenames and descriptions for the given department code. It then iterates over the result set and adds each document as a node in the TreeView control, setting the filename and description as part of the node's text. If no records are found, the function returns <code>0</code>.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of DamageLetters_tree_merge:
+Dim result As Integer
+result = DamageLetters_tree_merge("HR")
+If result = 0 Then
+    MsgBox "No documents found for this department."
+Else
+    MsgBox result & " documents added to the TreeView."
+End If
+</code></pre>
+
+</div>
+
+<hr>
+
+<!-- NodeFound Function -->
+<div class="function">
+    <h2>Function: <code>NodeFound(StartNode As Node, SearchText As String) As Boolean</code></h2>
+    <p>This function searches for a node in a TreeView control that starts with the specified <code>SearchText</code>. It recursively searches child nodes as well.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>StartNode (Node)</strong>: The starting node from which the search will begin.</li>
+        <li><strong>SearchText (String)</strong>: The text to search for in the node's label.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Boolean</code>: Returns <code>True</code> if a matching node is found, otherwise <code>False</code>.</p>
+
+    <h3>Logic:</h3>
+    <p>The function compares the beginning of each node's label (<code>Text</code> property) with the <code>SearchText</code>. If a match is found, the function sets the node as selected and ensures it is visible. It then recursively searches any child nodes before moving on to the next sibling node. The search continues until a match is found or there are no more nodes to search.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of NodeFound:
+Dim result As Boolean
+result = NodeFound(TreeView.Nodes(1), "Document")
+If result Then
+    MsgBox "Node found and selected."
+Else
+    MsgBox "Node not found."
+End If
+</code></pre>
+
+</div>
+
+<hr>
+
+<!-- DamageMerge_tree_fields Function -->
+<div class="function">
+    <h2>Function: <code>DamageMerge_tree_fields(treeKey As String)</code></h2>
+    <p>This function populates a TreeView control with document merge field information based on a given form name (<code>treeKey</code>).</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>treeKey (String)</strong>: The form name used to filter document merge fields in the database.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Integer</code>: Returns the number of fields added to the TreeView.</p>
+
+    <h3>Logic:</h3>
+    <p>The function constructs an SQL query to retrieve merge fields based on the form name. Each field is added as a child node in the TreeView control with its caption as the label. The function continues to add nodes until all records in the result set are processed.</p>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of DamageMerge_tree_fields:
+Dim result As Integer
+result = DamageMerge_tree_fields("FormA")
+MsgBox result & " merge fields added to the TreeView."
+</code></pre>
+
+</div>
+
+</body>
+</html>

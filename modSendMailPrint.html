@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modSendMailPrint.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Functions in modSendMailPrint.bas</h1>
+
+<!-- SendCDOmail Function -->
+<div class="function">
+    <h2>Function: <code>SendCDOmail(strTo As String, strFrom As String, strCC As String, strSubject As String, strTextBody As String, strFileNameAttach() As String) As Boolean</code></h2>
+    <p>This function uses Collaboration Data Objects (CDO) to send an email with optional attachments via an SMTP server. CDO allows for sending emails from within VBA, and this function is configured to connect to an SMTP server and send emails with multiple attachments if necessary.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>strTo (String)</strong>: The recipient's email address.</li>
+        <li><strong>strFrom (String)</strong>: The sender's email address.</li>
+        <li><strong>strCC (String)</strong>: The email address for CC (Carbon Copy).</li>
+        <li><strong>strSubject (String)</strong>: The subject of the email.</li>
+        <li><strong>strTextBody (String)</strong>: The body of the email.</li>
+        <li><strong>strFileNameAttach() (String Array)</strong>: An array of file paths for attachments.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Boolean</code>: Returns <code>True</code> if the email is sent successfully, otherwise <code>False</code>.</p>
+
+    <h3>Logic:</h3>
+    <p>The function works as follows:</p>
+    <ul>
+        <li>It creates CDO Message and Configuration objects to handle the email sending.</li>
+        <li>The SMTP server and its configuration are set, including the server address and port number.</li>
+        <li>Details such as recipient, sender, CC, subject, and body are added to the message.</li>
+        <li>If attachments are provided, they are looped through and added to the message.</li>
+        <li>After setting up the email, it is sent using the <code>.Send</code> method.</li>
+        <li>The function returns <code>True</code> if the email is sent successfully, or <code>False</code> if there is an error.</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of SendCDOmail:
+Dim attachments(1) As String
+attachments(0) = "C:\Documents\file1.pdf"
+attachments(1) = "C:\Documents\file2.pdf"
+Call SendCDOmail("recipient@example.com", "sender@example.com", "cc@example.com", "Subject", "Body text", attachments)
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function is ideal for automating email sending, especially when attachments need to be included, such as sending reports, invoices, or documents from within an application.</p>
+</div>
+
+<hr>
+
+<!-- AcrobatPrint Function -->
+<div class="function">
+    <h2>Function: <code>AcrobatPrint(strFileName As String) As Boolean</code></h2>
+    <p>This function is used to print a PDF file using Adobe Acrobat Reader. It uses the <code>ShellExecute</code> function to send the file to the printer.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>strFileName (String)</strong>: The file path of the PDF document to be printed.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Boolean</code>: Returns <code>True</code> if the print command is successfully executed, otherwise <code>False</code>.</p>
+
+    <h3>Logic:</h3>
+    <ul>
+        <li>The function calls <code>ShellExecute</code> with the <code>"print"</code> operation to print the specified PDF file.</li>
+        <li>The file is opened in Adobe Acrobat Reader and sent to the default printer.</li>
+        <li>If successful, the function returns <code>True</code>.</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of AcrobatPrint:
+Dim result As Boolean
+result = AcrobatPrint("C:\Documents\example.pdf")
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function is useful when automating the printing of PDF documents directly from VBA, such as generating and printing invoices or reports from an application.</p>
+</div>
+
+<hr>
+
+<!-- SendEmailviaSQLserver Function -->
+<div class="function">
+    <h2>Function: <code>SendEmailviaSQLserver(strTo As String, strFrom As String, strSubject As String, strTextBody As String, strFileNameAttach() As String, strProfile_name As String) As Boolean</code></h2>
+    <p>This function sends an email via SQL Server's <code>sp_send_dbmail</code> stored procedure. The email can have multiple recipients and attachments, and it uses a predefined email profile on the SQL Server.</p>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>strTo (String)</strong>: The recipient's email address.</li>
+        <li><strong>strFrom (String)</strong>: The sender's email address (can be ignored, as it is defined in SQL Server).</li>
+        <li><strong>strSubject (String)</strong>: The subject of the email.</li>
+        <li><strong>strTextBody (String)</strong>: The body of the email.</li>
+        <li><strong>strFileNameAttach() (String Array)</strong>: An array of file paths for attachments.</li>
+        <li><strong>strProfile_name (String)</strong>: The profile name configured on the SQL Server for sending emails.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <p><code>Boolean</code>: Returns <code>True</code> if the email is sent successfully via SQL Server, otherwise <code>False</code>.</p>
+
+    <h3>Logic:</h3>
+    <p>The function works as follows:</p>
+    <ul>
+        <li>It establishes a connection to the SQL Server.</li>
+        <li>The function sets up a command object to execute the <code>sp_send_dbmail</code> stored procedure on the SQL Server.</li>
+        <li>The email parameters (recipient, subject, body, etc.) are passed to the stored procedure as parameters.</li>
+        <li>Attachments are collected into a single string and passed to the stored procedure.</li>
+        <li>The email is sent via SQL Server, and the function returns <code>True</code> if successful.</li>
+    </ul>
+
+    <h3>Example:</h3>
+    <pre><code>
+' Example usage of SendEmailviaSQLserver:
+Dim attachments(1) As String
+attachments(0) = "C:\Documents\file1.pdf"
+attachments(1) = "C:\Documents\file2.pdf"
+Call SendEmailviaSQLserver("recipient@example.com", "sender@example.com", "Subject", "Body text", attachments, "MyEmailProfile")
+</code></pre>
+
+    <h3>Use Case:</h3>
+    <p>This function is ideal when sending emails via a SQL Server, especially for database-triggered email notifications, such as system alerts or automated report deliveries.</p>
+</div>
+
+</body>
+</html>

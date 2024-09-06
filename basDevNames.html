@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basDevNames.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basDevNames.bas</h1>
+
+    <!-- adhBuildDevNames Function -->
+    <div class="function">
+        <h2>Function: <code>adhBuildDevNames(dr As adh_tagDeviceRec) As Variant</code></h2>
+        <p>
+            The <code>adhBuildDevNames</code> function creates a <code>prtDevNames</code> structure based on the printer's device name, driver name, and port.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function is used to build a printer device structure (<code>prtDevNames</code>) by combining the device name, driver name, and port into a format that can be used by the printer system. It also ensures that the device name is within valid length limits.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>dr</strong>: A structure of type <code>adh_tagDeviceRec</code> that contains the device name, driver name, and port information of the printer.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a <code>Variant</code> containing the built <code>prtDevNames</code> structure, ready to be assigned to the printer device.</p>
+        <h3>Example:</h3>
+        <p>
+            To build a printer device structure:
+        </p>
+        <pre>
+Dim dr As adh_tagDeviceRec
+Dim devNames As Variant
+' Assume dr is filled with the device information
+devNames = adhBuildDevNames(dr)
+If Not IsNull(devNames) Then
+    Debug.Print "Printer device structure built."
+End If
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhGetDevNames Function -->
+    <div class="function">
+        <h2>Function: <code>adhGetDevNames(obj As Object) As adh_tagDeviceRec</code></h2>
+        <p>
+            The <code>adhGetDevNames</code> function retrieves a <code>prtDevNames</code> structure from a form or report and returns it in a <code>adh_tagDeviceRec</code> structure.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function extracts the printer device information (e.g., device name, driver name, port) from a form or report's <code>prtDevNames</code> property and stores it in an <code>adh_tagDeviceRec</code> structure.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>obj</strong>: A reference to the form or report from which to retrieve the <code>prtDevNames</code> structure.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a filled <code>adh_tagDeviceRec</code> structure containing the printer device information.</p>
+        <h3>Example:</h3>
+        <p>
+            To retrieve the printer device information from a form:
+        </p>
+        <pre>
+Dim dr As adh_tagDeviceRec
+dr = adhGetDevNames(Forms!frmTest)
+If Len(dr.strDeviceName) > 0 Then
+    Debug.Print "Device Name: " & dr.strDeviceName
+End If
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhParseDevNames Function -->
+    <div class="function">
+        <h2>Function: <code>adhParseDevNames(ByVal varDevNames As Variant, dr As adh_tagDeviceRec) As Boolean</code></h2>
+        <p>
+            The <code>adhParseDevNames</code> function parses a <code>varDevNames</code> string and fills the corresponding fields in an <code>adh_tagDeviceRec</code> structure.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function takes a <code>varDevNames</code> string, which contains printer device information, and extracts the device name, driver name, and port. It fills in these details in the <code>adh_tagDeviceRec</code> structure and also returns whether the printer is the default printer.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>varDevNames</strong>: A string containing the printer device information.</li>
+            <li><strong>dr</strong>: A structure of type <code>adh_tagDeviceRec</code> to be filled with the parsed information.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the printer is the default device, otherwise returns <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>
+            To parse the <code>varDevNames</code> string and extract device details:
+        </p>
+        <pre>
+Dim dr As adh_tagDeviceRec
+Dim isDefault As Boolean
+isDefault = adhParseDevNames(varDevNames, dr)
+If isDefault Then
+    Debug.Print "This is the default printer."
+Else
+    Debug.Print "This is not the default printer."
+End If
+        </pre>
+    </div>
+
+</body>
+</html>

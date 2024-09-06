@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basSetPrinter.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basSetPrinter.bas</h1>
+
+    <!-- adhExtractString Function -->
+    <div class="function">
+        <h2>Function: <code>adhExtractString(ByVal strDevice As String, ByVal intPiece As Integer, ByVal strDelimiter As String) As Variant</code></h2>
+        <p>
+            The <code>adhExtractString</code> function extracts a specific part of a string from a comma-delimited (or other delimiter) list.
+        </p>
+        <h3>Description:</h3>
+        <p>This function pulls out a token from a delimited string based on the specified position. For example, it can extract the first, second, or third part of a string that represents a device name, driver, or port, separated by commas or another delimiter.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strDevice</strong>: The delimited string containing device information.</li>
+            <li><strong>intPiece</strong>: An integer indicating which part of the string to extract (e.g., 1 for the first part, 2 for the second).</li>
+            <li><strong>strDelimiter</strong>: The delimiter used to separate the parts of the string (e.g., a comma or space).</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the extracted part of the string. If the position specified exceeds the number of parts in the string, the function returns <code>Null</code>.</p>
+        <h3>Example:</h3>
+        <pre>
+Dim devicePart As Variant
+devicePart = adhExtractString("Device1,Driver1,Port1", 2, ",")
+Debug.Print devicePart  ' Output: "Driver1"
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhFillDeviceList Function -->
+    <div class="function">
+        <h2>Function: <code>adhFillDeviceList(ctlField As Control, varID As Variant, varRow As Variant, varCol As Variant, varCode As Variant) As Variant</code></h2>
+        <p>
+            The <code>adhFillDeviceList</code> function populates a list or combo box with available printer devices.
+        </p>
+        <h3>Description:</h3>
+        <p>This function fills a list or combo box with the names of available devices by using the <code>adhGetDevices()</code> function to retrieve the list. It is commonly used in form controls to allow users to select a printer from a list of installed devices.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>ctlField</strong>: A reference to the control (list box or combo box) being populated.</li>
+            <li><strong>varID</strong>, <strong>varRow</strong>, <strong>varCol</strong>, <strong>varCode</strong>: Variables used to determine the action for the list control (e.g., initialize, get row count, get value).</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a value depending on the action being performed (e.g., row count, device name).</p>
+        <h3>Example:</h3>
+        <pre>
+' To populate a list box with available printers:
+Call adhFillDeviceList(YourListBox, varID, varRow, varCol, varCode)
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhFillStructure Function -->
+    <div class="function">
+        <h2>Function: <code>adhFillStructure(ByVal intIndex As Integer) As adh_tagDeviceRec</code></h2>
+        <p>
+            The <code>adhFillStructure</code> function fills an <code>adh_tagDeviceRec</code> structure with information about a device from the <code>aDevList()</code> array.
+        </p>
+        <h3>Description:</h3>
+        <p>This function retrieves device information from the <code>aDevList()</code> array based on the provided index and fills the <code>adh_tagDeviceRec</code> structure with the device name, driver name, and port.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>intIndex</strong>: The index of the device in the <code>aDevList()</code> array.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a filled <code>adh_tagDeviceRec</code> structure containing the device's name, driver, and port.</p>
+        <h3>Example:</h3>
+        <pre>
+Dim deviceInfo As adh_tagDeviceRec
+deviceInfo = adhFillStructure(0)
+Debug.Print deviceInfo.strDeviceName, deviceInfo.strPort
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhGetCurrentDevice Function -->
+    <div class="function">
+        <h2>Function: <code>adhGetCurrentDevice(drCurrent As adh_tagDeviceRec, strDelimiter As String) As Boolean</code></h2>
+        <p>
+            The <code>adhGetCurrentDevice</code> function retrieves the current default printer device from the WIN.INI file.
+        </p>
+        <h3>Description:</h3>
+        <p>This function reads the current default printer information from the WIN.INI file and fills the <code>adh_tagDeviceRec</code> structure with the device name, driver name, and port.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>drCurrent</strong>: The <code>adh_tagDeviceRec</code> structure to be filled with the current device information.</li>
+            <li><strong>strDelimiter</strong>: The delimiter used to separate the device name, driver name, and port.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the current device information is successfully retrieved, otherwise returns <code>False</code>.</p>
+        <h3>Example:</h3>
+        <pre>
+Dim currentDevice As adh_tagDeviceRec
+If adhGetCurrentDevice(currentDevice, ",") Then
+    Debug.Print "Current Printer: " & currentDevice.strDeviceName
+Else
+    Debug.Print "Failed to retrieve current printer."
+End If
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhGetCurrentDeviceString Function -->
+    <div class="function">
+        <h2>Function: <code>adhGetCurrentDeviceString() As Variant</code></h2>
+        <p>
+            The <code>adhGetCurrentDeviceString</code> function retrieves the current default printer device information as a string from the WIN.INI file.
+        </p>
+        <h3>Description:</h3>
+        <p>This function returns a string representing the current default printer device, driver, and port from the WIN.INI file. If no information is found, it returns <code>Null</code>.</p>
+        <h3>Returns:</h3>
+        <p>Returns a string containing the device name, driver name, and port, or <code>Null</code> if no information is found.</p>
+        <h3>Example:</h3>
+        <pre>
+Dim currentDeviceStr As Variant
+currentDeviceStr = adhGetCurrentDeviceString()
+Debug.Print "Current Printer String: " & currentDeviceStr
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhGetPrintInfo Function -->
+    <div class="function">
+        <h2>Function: <code>adhGetPrintInfo(strName As String, intType As Integer, FDefault As Boolean) As Variant</code></h2>
+        <p>
+            The <code>adhGetPrintInfo</code> function retrieves information about the selected printer device for a form or report.
+        </p>
+        <h3>Description:</h3>
+        <p>This function retrieves a comma-delimited list of the device name, driver name, and port for the specified form or report. If the form or report is using the default printer, the information is obtained from the WIN.INI file; otherwise, it retrieves the information from the <code>prtDevNames</code> property.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strName</strong>: The name of the form or report.</li>
+            <li><strong>intType</strong>: Specifies whether the object is a form (<code>acForm</code>) or a report (<code>acReport</code>).</li>
+            <li><strong>FDefault</strong>: A boolean value that indicates whether the default printer is used.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a comma-delimited string containing the device name, driver name, and port.</p>
+        <h3>Example:</h3>
+        <pre>
+Dim printInfo As Variant
+Dim isDefault As Boolean
+printInfo = adhGetPrintInfo("frmTest", acForm, isDefault)
+Debug.Print "Printer Info: " & printInfo
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhGetDevices Function -->
+    <div class="function">
+        <h2>Function: <code>adhGetDevices(aDevList() As adh_tagDeviceRec) As Integer</code></h2>
+        <p>
+            The <code>adhGetDevices</code> function fills an array with all available devices found in the WIN.INI file.
+        </p>
+        <h3>Description:</h3>
+        <p>This function reads the devices section of the WIN.INI file and fills the <code>aDevList()</code> array with the device name, driver name, and port for each device. It returns the number of devices found.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>aDevList()</strong>: An array of <code>adh_tagDeviceRec</code> structures to be filled with the available devices.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the number of devices found in the WIN.INI file.</p>
+        <h3>Example:</h3>
+        <pre>
+Dim devices() As adh_tagDeviceRec
+Dim deviceCount As Integer
+deviceCount = adhGetDevices(devices)
+Debug.Print "Devices found: " & deviceCount
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhGetProfileSection Function -->
+    <div class="function">
+        <h2>Function: <code>adhGetProfileSection(ByVal strGroup As String) As Variant</code></h2>
+        <p>
+            The <code>adhGetProfileSection</code> function retrieves an entire section from the WIN.INI file.
+        </p>
+        <h3>Description:</h3>
+        <p>This function reads a section from the WIN.INI file (e.g., the "Devices" section) and returns the entire section as a string, with items separated by null characters.</p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strGroup</strong>: The section of the WIN.INI file to retrieve (e.g., "Devices").</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the contents of the specified section as a string, or an empty string if the section is not found.</p>
+        <h3>Example:</h3>
+        <pre>
+Dim devicesSection As Variant
+devicesSection = adhGetProfileSection("Devices")
+Debug.Print "Devices Section: " & devicesSection
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- TestIt Function -->
+    <div class="function">
+        <h2>Function: <code>TestIt()</code></h2>
+        <p>
+            The <code>TestIt</code> function tests the retrieval of devices by calling <code>adhGetDevices()</code> and printing the device names and ports to the debug window.
+        </p>
+        <h3>Description:</h3>
+        <p>This function demonstrates how to retrieve the list of available devices using <code>adhGetDevices()</code> and outputs the device names and ports to the debug window.</p>
+        <h3>Example:</h3>
+        <pre>
+Sub TestIt()
+    Dim devices() As adh_tagDeviceRec
+    Dim i As Integer
+    Debug.Print adhGetDevices(devices)
+
+    For i = LBound(devices) To UBound(devices)
+        Debug.Print devices(i).strDeviceName, devices(i).strPort
+    Next i
+End Sub
+        </pre>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modFtp.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in modFtp.bas</h1>
+
+    <!-- GetAllFilesInDir Function -->
+    <div class="function">
+        <h2>Function: <code>GetAllFilesInDir(ByVal strDirPath As String) As Variant</code></h2>
+        <p>
+            The <code>GetAllFilesInDir</code> function retrieves all file names from a specified directory and returns them as an array.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function loops through the directory specified in the <code>strDirPath</code> parameter and stores the names of all files in an array. It excludes directories and only returns file names. If the directory is invalid, the function returns <code>False</code>.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strDirPath</strong>: A string representing the path to the directory from which file names will be retrieved.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns an array of file names if successful. If the directory is invalid, it returns <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>To retrieve a list of all files in the directory <code>"C:\MyFiles"</code>:</p>
+        <pre>
+Dim files As Variant
+files = GetAllFilesInDir("C:\MyFiles")
+
+If IsArray(files) Then
+    Dim i As Long
+    For i = LBound(files) To UBound(files)
+        Debug.Print files(i)
+    Next i
+Else
+    MsgBox "Invalid directory!"
+End If
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Ensures the directory path ends with a backslash (`\`).</li>
+            <li>Checks if the path is a valid directory using the `GetAttr` function.</li>
+            <li>Uses the `Dir` function to loop through all files in the directory, excluding subdirectories.</li>
+            <li>Stores each file name in an array and returns the array.</li>
+            <li>If an error occurs, it returns `False`.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- FtpPut Function -->
+    <div class="function">
+        <h2>Function: <code>FtpPut(strFTPServer As String, strUser As String, strPassword As String, strFILNavnfra As String, strFILNavnTil As String) As Boolean</code></h2>
+        <p>
+            The <code>FtpPut</code> function uploads a file to an FTP server.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function connects to an FTP server using the specified credentials and uploads a file from a local path (<code>strFILNavnfra</code>) to a destination path on the server (<code>strFILNavnTil</code>). It returns <code>True</code> if the upload is successful, and <code>False</code> otherwise.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strFTPServer</strong>: The FTP server address (e.g., "ftp.example.com").</li>
+            <li><strong>strUser</strong>: The FTP server username.</li>
+            <li><strong>strPassword</strong>: The FTP server password.</li>
+            <li><strong>strFILNavnfra</strong>: The local file path to upload.</li>
+            <li><strong>strFILNavnTil</strong>: The destination path on the FTP server.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the file upload is successful, and <code>False</code> otherwise.</p>
+        <h3>Example:</h3>
+        <p>To upload a file to an FTP server:</p>
+        <pre>
+Dim success As Boolean
+success = FtpPut("ftp.example.com", "username", "password", "C:\localfile.txt", "/remotefile.txt")
+
+If success Then
+    MsgBox "File uploaded successfully!"
+Else
+    MsgBox "File upload failed."
+End If
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Opens an internet connection using the `InternetOpen` API function.</li>
+            <li>Establishes a connection to the FTP server using `InternetConnect` with the provided credentials.</li>
+            <li>Uploads the file from the local path to the destination on the server using the `FtpPutFile` API function.</li>
+            <li>Closes the FTP and internet connections using `InternetCloseHandle`.</li>
+            <li>Returns <code>True</code> if the file is successfully uploaded, otherwise returns <code>False</code>.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- FtpMPut Function -->
+    <div class="function">
+        <h2>Function: <code>FtpMPut(strFTPServer As String, strUser As String, strPassword As String, strFromDirectory As String, strToDirectory As String) As Boolean</code></h2>
+        <p>
+            The <code>FtpMPut</code> function uploads all files from a local directory to an FTP server directory.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function connects to an FTP server using the specified credentials and uploads all files from the specified local directory (<code>strFromDirectory</code>) to the target directory on the FTP server (<code>strToDirectory</code>). It returns <code>True</code> if all files are uploaded successfully, and <code>False</code> if any file fails to upload.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>strFTPServer</strong>: The FTP server address (e.g., "ftp.example.com").</li>
+            <li><strong>strUser</strong>: The FTP server username.</li>
+            <li><strong>strPassword</strong>: The FTP server password.</li>
+            <li><strong>strFromDirectory</strong>: The local directory path containing the files to upload.</li>
+            <li><strong>strToDirectory</strong>: The destination directory on the FTP server.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if all files are uploaded successfully, and <code>False</code> if any file fails to upload.</p>
+        <h3>Example:</h3>
+        <p>To upload all files from a local directory to an FTP server:</p>
+        <pre>
+Dim success As Boolean
+success = FtpMPut("ftp.example.com", "username", "password", "C:\MyFiles", "/remotedir")
+
+If success Then
+    MsgBox "All files uploaded successfully!"
+Else
+    MsgBox "Some files failed to upload."
+End If
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Opens an internet connection using the `InternetOpen` API function.</li>
+            <li>Establishes a connection to the FTP server using `InternetConnect` with the provided credentials.</li>
+            <li>Sets the current directory on the FTP server to the specified destination using `FtpSetCurrentDirectory`.</li>
+            <li>Uses the `GetAllFilesInDir` function to retrieve all files from the specified local directory.</li>
+            <li>Loops through the array of files and uploads each file to the FTP server using `FtpPutFile`.</li>
+            <li>If any file fails to upload, the overall success is set to <code>False</code>.</li>
+            <li>Closes the FTP and internet connections using `InternetCloseHandle`.</li>
+            <li>Returns <code>True</code> if all files are uploaded successfully, otherwise returns <code>False</code>.</li>
+        </ul>
+    </div>
+
+</body>
+</html>

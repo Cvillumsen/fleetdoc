@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eInvoice.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in eInvoice.bas</h1>
+
+    <!-- ChangeStatus Function -->
+    <div class="function">
+        <h2>Function: <code>ChangeStatus(Statusflg As Integer)</code></h2>
+        <p>
+            The <code>ChangeStatus</code> function updates the status of the selected invoices in the <code>frmImportInvoice</code> form.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function checks if the form <code>frmImportInvoice</code> is loaded. If it is, it calls the <code>ChangeSelStatus</code> method from the subform <code>frmImportInvoice_Sub</code> to change the status of the selected records based on the <code>Statusflg</code> parameter.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>Statusflg</strong>: An integer representing the new status to apply to the selected records.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>This function does not return a value.</p>
+        <h3>Example:</h3>
+        <p>To change the status of selected invoices to 1 (for example, marking them as processed):</p>
+        <pre>
+Call ChangeStatus(1)
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- ChangeRegistrationNo Function -->
+    <div class="function">
+        <h2>Function: <code>ChangeRegistrationNo()</code></h2>
+        <p>
+            The <code>ChangeRegistrationNo</code> function updates the registration number for the selected invoices in the <code>frmImportInvoice</code> form.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function checks if the form <code>frmImportInvoice</code> is loaded. If it is, it calls the <code>ChangeSelRegNo</code> method from the subform <code>frmImportInvoice_Sub</code> to change the registration number of the selected records.
+        </p>
+        <h3>Returns:</h3>
+        <p>This function does not return a value.</p>
+        <h3>Example:</h3>
+        <p>To update the registration number for the selected invoices:</p>
+        <pre>
+Call ChangeRegistrationNo()
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- ChangeRequisitionNo Function -->
+    <div class="function">
+        <h2>Function: <code>ChangeRequisitionNo()</code></h2>
+        <p>
+            The <code>ChangeRequisitionNo</code> function updates the requisition number for the selected invoices in the <code>frmImportInvoice</code> form.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function checks if the form <code>frmImportInvoice</code> is loaded. If it is, it calls the <code>ChangeSelReqNo</code> method from the subform <code>frmImportInvoice_Sub</code> to change the requisition number of the selected records.
+        </p>
+        <h3>Returns:</h3>
+        <p>This function does not return a value.</p>
+        <h3>Example:</h3>
+        <p>To update the requisition number for the selected invoices:</p>
+        <pre>
+Call ChangeRequisitionNo()
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- DeleteSelected Function -->
+    <div class="function">
+        <h2>Function: <code>DeleteSelected()</code></h2>
+        <p>
+            The <code>DeleteSelected</code> function deletes the selected invoices from the <code>frmImportInvoice</code> form.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function checks if the form <code>frmImportInvoice</code> is loaded. If it is, it calls the <code>DeleteSelected</code> method from the subform <code>frmImportInvoice_Sub</code> to delete the selected records.
+        </p>
+        <h3>Returns:</h3>
+        <p>This function does not return a value.</p>
+        <h3>Example:</h3>
+        <p>To delete the selected invoices:</p>
+        <pre>
+Call DeleteSelected()
+        </pre>
+    </div>
+
+</body>
+</html>

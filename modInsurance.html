@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modInsurance.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Functions in modInsurance.bas</h1>
+
+<!-- ins_Casco_Estimate Function -->
+<div class="function">
+    <h2>Function: <code>ins_Casco_Estimate(damageId As Long) As Currency</code></h2>
+    <p>Returns the estimated cost of a casco (vehicle damage) claim based on the provided damage ID.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the estimate is to be retrieved.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The estimated cost of the casco claim. If the estimate is not found, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim estimate As Currency
+estimate = ins_Casco_Estimate(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_tplD_Estimate Function -->
+<div class="function">
+    <h2>Function: <code>ins_tplD_Estimate(damageId As Long) As Currency</code></h2>
+    <p>Returns the estimated cost for third-party liability (damage) claims based on the provided damage ID.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the third-party liability estimate is to be retrieved.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The estimated third-party liability (damage) cost. If the estimate is not found, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim tplDEstimate As Currency
+tplDEstimate = ins_tplD_Estimate(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_tplI_Estimate Function -->
+<div class="function">
+    <h2>Function: <code>ins_tplI_Estimate(damageId As Long) As Currency</code></h2>
+    <p>Returns the estimated medical cost for third-party liability (injury) claims based on the provided damage ID.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the medical estimate is to be retrieved.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The estimated third-party liability (injury) cost. If the estimate is not found, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim tplIEstimate As Currency
+tplIEstimate = ins_tplI_Estimate(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_Casco_Booked Function -->
+<div class="function">
+    <h2>Function: <code>ins_Casco_Booked(damageId As Long) As Currency</code></h2>
+    <p>Returns the total amount booked for casco claims based on the provided damage ID.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the booked amount is to be retrieved.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The total booked amount for the casco claim. If no bookings are found, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim bookedAmount As Currency
+bookedAmount = ins_Casco_Booked(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_Casco_Rebilled Function -->
+<div class="function">
+    <h2>Function: <code>ins_Casco_Rebilled(damageId As Long) As Currency</code></h2>
+    <p>Returns the total amount rebilled for casco claims based on the provided damage ID.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the rebilled amount is to be retrieved.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The total rebilled amount for the casco claim. If no rebilling is found, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim rebilledAmount As Currency
+rebilledAmount = ins_Casco_Rebilled(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_tplD_Booked Function -->
+<div class="function">
+    <h2>Function: <code>ins_tplD_Booked(damageId As Long) As Currency</code></h2>
+    <p>Returns the total amount booked for third-party liability (damage) claims based on the provided damage ID.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the third-party liability (damage) bookings are to be retrieved.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The total booked amount for the third-party liability (damage) claim. If no bookings are found, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim tplDBooked As Currency
+tplDBooked = ins_tplD_Booked(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_tplI_Booked Function -->
+<div class="function">
+    <h2>Function: <code>ins_tplI_Booked(damageId As Long) As Currency</code></h2>
+    <p>Returns the total amount booked for third-party liability (injury) claims based on the provided damage ID.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the third-party liability (injury) bookings are to be retrieved.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The total booked amount for the third-party liability (injury) claim. If no bookings are found, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim tplIBooked As Currency
+tplIBooked = ins_tplI_Booked(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_Casco_Remaining Function -->
+<div class="function">
+    <h2>Function: <code>ins_Casco_Remaining(damageId As Long) As Currency</code></h2>
+    <p>Calculates the remaining amount to be booked for casco claims based on the provided damage ID. This is calculated by subtracting the booked and rebilled amounts from the estimated cost.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the remaining amount is to be calculated.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The remaining amount to be booked for the casco claim. If the remaining amount is less than 0, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim remainingCasco As Currency
+remainingCasco = ins_Casco_Remaining(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_tplD_Remaining Function -->
+<div class="function">
+    <h2>Function: <code>ins_tplD_Remaining(damageId As Long) As Currency</code></h2>
+    <p>Calculates the remaining amount to be booked for third-party liability (damage) claims based on the provided damage ID. This is calculated by subtracting the booked amount from the estimate.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the remaining amount is to be calculated.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The remaining amount to be booked for the third-party liability (damage) claim. If the remaining amount is less than 0, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim remainingTplD As Currency
+remainingTplD = ins_tplD_Remaining(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_tplI_Remaining Function -->
+<div class="function">
+    <h2>Function: <code>ins_tplI_Remaining(damageId As Long) As Currency</code></h2>
+    <p>Calculates the remaining amount to be booked for third-party liability (injury) claims based on the provided damage ID. This is calculated by subtracting the booked amount from the estimate.</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>damageId</strong> (Long) - The ID of the damage claim for which the remaining amount is to be calculated.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Currency - The remaining amount to be booked for the third-party liability (injury) claim. If the remaining amount is less than 0, the function returns 0.</p>
+    <pre><code>
+Example:
+Dim remainingTplI As Currency
+remainingTplI = ins_tplI_Remaining(12345)
+</code></pre>
+</div>
+<hr>
+
+<!-- ins_is_TPL Function -->
+<div class="function">
+    <h2>Function: <code>ins_is_TPL(CoverageType As Integer) As Boolean</code></h2>
+    <p>Checks if a given coverage type is considered third-party liability (TPL).</p>
+    <h3>Parameters:</h3>
+    <ul>
+        <li><strong>CoverageType</strong> (Integer) - The type of coverage to be checked.</li>
+    </ul>
+    <h3>Returns:</h3>
+    <p>Boolean - Returns <code>True</code> if the coverage type is TPL (third-party liability), otherwise returns <code>False</code>.</p>
+    <pre><code>
+Example:
+Dim isTPL As Boolean
+isTPL = ins_is_TPL(4) ' Check if CoverageType 4 is TPL
+</code></pre>
+</div>
+
+</body>
+</html>

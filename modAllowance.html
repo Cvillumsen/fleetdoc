@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modAllowance.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in modAllowance.bas</h1>
+
+    <!-- AllowanceOK Function -->
+    <div class="function">
+        <h2>Function: <code>AllowanceOK(AllowanceType As String, parm1 As Variant) As Boolean</code></h2>
+        <p>
+            The <code>AllowanceOK</code> function checks if a specified allowance type is valid for the current user and date.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function validates an allowance based on the user's record in the <code>dbo_allowances</code> table. It retrieves the current user's allowance information, checks if the allowance is valid for the current date, and compares the <code>parm1</code> value to ensure it's within the allowed range.
+        </p>
+        <p>
+            If the <code>parm1</code> value is valid and the allowance falls within the current date range, the function returns <code>True</code>. Otherwise, it returns <code>False</code>.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>AllowanceType</strong>: A string representing the type of allowance to check.</li>
+            <li><strong>parm1</strong>: A variant representing the value to validate against the allowance.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the allowance is valid and <code>parm1</code> is within the allowed range; otherwise, returns <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>To check if an allowance is valid for a specific type:</p>
+        <pre>
+Dim isAllowanceValid As Boolean
+isAllowanceValid = AllowanceOK("Type1", 50)
+
+If isAllowanceValid Then
+    MsgBox "Allowance is valid!"
+Else
+    MsgBox "Allowance is not valid."
+End If
+        </pre>
+
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>If <code>parm1</code> is <code>Null</code> or equals <code>0</code>, the function immediately exits, returning <code>False</code> or <code>True</code>, respectively.</li>
+            <li>It retrieves the current user's ID from the <code>dbo_curr_user</code> table and checks for the allowance record matching the user and allowance type from the <code>dbo_allowances</code> table.</li>
+            <li>If a valid record is found, it verifies that the current date falls within the valid date range of the allowance. It then checks if <code>parm1</code> is less than or equal to the allowed amount.</li>
+        </ul>
+    </div>
+
+</body>
+</html>

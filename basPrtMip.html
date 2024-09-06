@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basPrtMip.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basPrtMip.bas</h1>
+
+    <!-- adhRetrieveMIP Function -->
+    <div class="function">
+        <h2>Function: <code>adhRetrieveMIP(obj As Object, MIP As adh_tagMarginInfo) As Boolean</code></h2>
+        <p>
+            The <code>adhRetrieveMIP</code> function retrieves the margin information (<code>prtMip</code> property) from a specified form or report and fills the provided <code>adh_tagMarginInfo</code> structure.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function extracts margin and layout-related settings from the printer properties of a form or report and stores them in a user-defined structure of type <code>adh_tagMarginInfo</code>. The function is useful for accessing and modifying the layout and margin settings programmatically.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>obj</strong>: A reference to the form or report from which to retrieve the margin information.</li>
+            <li><strong>MIP</strong>: A variable of type <code>adh_tagMarginInfo</code> that will be filled with the retrieved margin settings.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the margin information is successfully retrieved, otherwise returns <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>
+            To retrieve the margin information for a form named "frmTest":
+        </p>
+        <pre>
+Dim MIP As adh_tagMarginInfo
+Dim fSuccess As Boolean
+
+fSuccess = adhRetrieveMIP(Forms!frmTest, MIP)
+If fSuccess Then
+    Debug.Print "Items Across: " & MIP.intItemsAcross
+Else
+    Debug.Print "Failed to retrieve margin information."
+End If
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- adhSetMip Function -->
+    <div class="function">
+        <h2>Function: <code>adhSetMip(obj As Object, MIP As adh_tagMarginInfo) As Boolean</code></h2>
+        <p>
+            The <code>adhSetMip</code> function sets the margin information (<code>prtMip</code> property) for a specified form or report using the values stored in a <code>adh_tagMarginInfo</code> structure.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function allows you to programmatically set the printer margin and layout settings of a form or report by passing in a <code>adh_tagMarginInfo</code> structure that contains the necessary values. It is useful for automating changes to the layout configuration of printed forms and reports.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>obj</strong>: A reference to the form or report for which the margin information will be set.</li>
+            <li><strong>MIP</strong>: A variable of type <code>adh_tagMarginInfo</code> that contains the margin settings to be applied to the form or report.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the margin information is successfully applied, otherwise returns <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>
+            To set the margin information for a form named "frmTest":
+        </p>
+        <pre>
+Dim MIP As adh_tagMarginInfo
+Dim fSuccess As Boolean
+
+' Assume MIP has been filled with values
+MIP.intItemsAcross = 2
+MIP.lngLeftMargin = 1440 ' 1 inch margin in twips
+
+fSuccess = adhSetMip(Forms!frmTest, MIP)
+If fSuccess Then
+    Debug.Print "Margin information set successfully."
+Else
+    Debug.Print "Failed to set margin information."
+End If
+        </pre>
+    </div>
+
+</body>
+</html>

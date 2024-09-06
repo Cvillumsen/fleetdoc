@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>basPaperNameList.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in basPaperNameList.bas</h1>
+
+    <!-- GetPaperNameList Function -->
+    <div class="function">
+        <h2>Function: <code>GetPaperNameList()</code></h2>
+        <p>
+            The <code>GetPaperNameList</code> function retrieves and prints a list of paper sizes available for the current printer device.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function calls <code>adhGetPaperNames</code> to retrieve a list of paper names (sizes) supported by the current printer. The list of paper sizes is printed to the debug window.
+        </p>
+        <h3>Parameters:</h3>
+        <p>This function has no input parameters.</p>
+        <h3>Returns:</h3>
+        <p>This function does not return a value directly. Instead, it prints the list of paper sizes to the debug window.</p>
+        <h3>Example:</h3>
+        <p>
+            To retrieve and display the available paper sizes for the current printer:
+        </p>
+        <pre>
+Call GetPaperNameList()
+' Output:
+' Letter
+' A4
+' Legal
+' (and other available paper sizes)
+        </pre>
+    </div>
+
+    <hr>
+
+    <!-- GetPaperNames Function -->
+    <div class="function">
+        <h2>Function: <code>GetPaperNames(dr As adh_tagDeviceRec, astrList() As String) As Long</code></h2>
+        <p>
+            The <code>GetPaperNames</code> function retrieves the list of supported paper sizes (as strings) from the printer driver and returns the number of paper sizes available.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function uses the <code>DeviceCapabilities</code> API to query the printer driver for the names of supported paper sizes. The list of names is returned in an array, and the function returns the count of available paper sizes.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>dr</strong>: A structure of type <code>adh_tagDeviceRec</code> that contains the printer device's name and port information.</li>
+            <li><strong>astrList()</strong>: An array of <code>String</code> that will be filled with the names of the available paper sizes.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns a <code>Long</code> representing the number of paper sizes retrieved. If an error occurs, it returns 0.</p>
+        <h3>Example:</h3>
+        <p>
+            To retrieve the paper sizes for a specific printer device:
+        </p>
+        <pre>
+Dim dr As adh_tagDeviceRec
+Dim paperNames() As String
+Dim count As Long
+
+' Assume dr is filled with device details
+count = GetPaperNames(dr, paperNames)
+
+If count > 0 Then
+    Dim i As Integer
+    For i = 0 To count - 1
+        Debug.Print paperNames(i)
+    Next i
+End If
+        </pre>
+    </div>
+
+</body>
+</html>

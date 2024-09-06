@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modMotherDaughterCompany.bas - Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #0056b3;
+            overflow-x: auto;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .function {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functions in modMotherDaughterCompany.bas</h1>
+
+    <!-- FindMotherCompany Function -->
+    <div class="function">
+        <h2>Function: <code>FindMotherCompany(CUSTNO As Long) As Long</code></h2>
+        <p>
+            The <code>FindMotherCompany</code> function retrieves the mother company (parent company) for a specified customer based on their customer number (CUSTNO).
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function runs a SQL query to find the mother company of a customer by using the <code>KONCNO</code> field, which links the child customer to its parent company. If the customer is not part of any company group, it returns 0.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>CUSTNO</strong>: The customer number of the company for which the mother company is being retrieved.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns the customer number of the mother company or 0 if not found.</p>
+        <h3>Example:</h3>
+        <p>To find the mother company for customer number 1234:</p>
+        <pre>
+Dim motherCompany As Long
+motherCompany = FindMotherCompany(1234)
+Debug.Print "Mother Company: " & motherCompany
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Runs a SQL query to retrieve the mother company for the given customer number from the <code>dbo_CUSTOMER</code> table.</li>
+            <li>If the mother company is found, it returns the mother company’s customer number, otherwise it returns 0.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- IsItAMotherCompany Function -->
+    <div class="function">
+        <h2>Function: <code>IsItAMotherCompany(CUSTNO As Long) As Boolean</code></h2>
+        <p>
+            The <code>IsItAMotherCompany</code> function checks whether a given customer is a mother company (parent company) by using their customer number.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function determines whether a customer is a mother company by running a query to check if the customer number exists in the <code>KONCNO</code> field of another customer. If the customer is a mother company, it returns <code>True</code>, otherwise <code>False</code>.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>CUSTNO</strong>: The customer number of the company being checked.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns <code>True</code> if the customer is a mother company, otherwise <code>False</code>.</p>
+        <h3>Example:</h3>
+        <p>To check if customer number 4567 is a mother company:</p>
+        <pre>
+Dim isMotherCompany As Boolean
+isMotherCompany = IsItAMotherCompany(4567)
+Debug.Print "Is Mother Company: " & isMotherCompany
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Runs a SQL query to check if the given customer number appears in the <code>KONCNO</code> field of another customer.</li>
+            <li>If the customer is found to be a mother company, it returns <code>True</code>, otherwise it returns <code>False</code>.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- FindDaughterCompaniesRS Function -->
+    <div class="function">
+        <h2>Function: <code>FindDaughterCompaniesRS(CUSTNO As Long) As ADODB.Recordset</code></h2>
+        <p>
+            The <code>FindDaughterCompaniesRS</code> function retrieves a recordset of daughter (child) companies for a specified customer.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function runs a SQL query to find all the daughter companies of a mother company based on the provided customer number (CUSTNO). The results are returned as an ADODB recordset that can be iterated over.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>CUSTNO</strong>: The customer number of the mother company.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns an <code>ADODB.Recordset</code> containing the list of daughter companies.</p>
+        <h3>Example:</h3>
+        <p>To find all daughter companies for customer number 7890:</p>
+        <pre>
+Dim rsDaughters As ADODB.Recordset
+Set rsDaughters = FindDaughterCompaniesRS(7890)
+While Not rsDaughters.EOF
+    Debug.Print rsDaughters("CUSTNO")
+    rsDaughters.MoveNext
+Wend
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Runs a SQL query to retrieve the customer numbers of daughter companies based on the given mother company’s customer number.</li>
+            <li>Iterates over the resulting recordset to display or process each daughter company.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- FindAllDaughterCompaniesRS Function -->
+    <div class="function">
+        <h2>Function: <code>FindAllDaughterCompaniesRS(CUSTNO As Long) As ADODB.Recordset</code></h2>
+        <p>
+            The <code>FindAllDaughterCompaniesRS</code> function recursively retrieves all daughter companies and their sub-companies for a specified customer.
+        </p>
+        <h3>Description:</h3>
+        <p>
+            This function uses recursion to retrieve not only direct daughter companies but also their sub-companies. It returns an <code>ADODB.Recordset</code> containing all daughter companies and their hierarchy.
+        </p>
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>CUSTNO</strong>: The customer number of the mother company.</li>
+        </ul>
+        <h3>Returns:</h3>
+        <p>Returns an <code>ADODB.Recordset</code> containing the list of all daughter companies, including nested levels.</p>
+        <h3>Example:</h3>
+        <p>To recursively find all daughter companies and their sub-companies for customer number 6543:</p>
+        <pre>
+Dim rsAllDaughters As ADODB.Recordset
+Set rsAllDaughters = FindAllDaughterCompaniesRS(6543)
+While Not rsAllDaughters.EOF
+    Debug.Print rsAllDaughters("CUSTNO")
+    rsAllDaughters.MoveNext
+Wend
+        </pre>
+        <h3>Function Logic:</h3>
+        <ul>
+            <li>Runs a SQL query to retrieve direct daughter companies for the specified mother company.</li>
+            <li>Recursively calls itself to find all sub-companies for each daughter company.</li>
+            <li>Collects the customer numbers of all found companies and returns them in a recordset.</li>
+        </ul>
+    </div>
+
+</body>
+</html>
